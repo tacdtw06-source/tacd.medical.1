@@ -52,6 +52,14 @@
   text-align: center;
   box-shadow: 0 4px 12px rgba(29,32,136,0.15);
   margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.page-header-banner img {
+  max-width: 280px;
+  height: auto;
 }
 .page-header-banner h1 {
   font-size: 28px;
@@ -68,6 +76,10 @@
 @media(max-width:600px) {
   .page-header-banner {
     padding: 18px 12px;
+    gap: 12px;
+  }
+  .page-header-banner img {
+    max-width: 200px;
   }
   .page-header-banner h1 {
     font-size: 22px;
@@ -306,6 +318,15 @@
   .intro-desc{ font-size:13px !important; }
   .sig-canvas-wrap{ height:90px !important; }
   .sig-block{ width:100%; }
+  /* 手機版顯示展開按鈕 */
+  #sig-open-area { display:flex !important; }
+  .sig-canvas-wrap { display:none !important; }
+}
+
+/* ── 桌面版隱藏展開按鈕 ── */
+@media(min-width:601px){
+  #sig-open-area { display:none !important; }
+  .sig-canvas-wrap { display:block !important; }
 }
 
 /* ── 手機簽名 Modal (固定在正中間) ── */
@@ -504,8 +525,11 @@
 
     <!-- ═══ 頁面標頭橫幅 ═══ -->
     <div class="page-header-banner">
-        <h1>糖尿病疫苗衛教計畫</h1>
-        <p>線上互動衛教平台｜歡迎參與糖尿病病友新冠疫苗衛教與施打促進計畫</p>
+        <img src="https://raw.githubusercontent.com/tacdtw06-source/tacd.medical.1/main/tacd-logo.png" alt="TACD 糖尿病疫苗衛教計畫" />
+        <div>
+            <h1>糖尿病疫苗衛教計畫</h1>
+            <p>線上互動衛教平台｜歡迎參與糖尿病病友新冠疫苗衛教與施打促進計畫</p>
+        </div>
     </div>
 
     <main class="max-w-4xl mx-auto px-2 sm:px-4 py-4 sm:py-8 flex-grow w-full">
@@ -575,7 +599,7 @@
       <span class="label-text">（以下簡稱本機構）所執行之</span>
     </div>
     <p class="intro-desc">
-      糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教活動。
+      糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教服務。
     </p>
   </div>
 
@@ -585,7 +609,7 @@
     <div class="article">
       <h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
-        <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通信聯繫）。</p>
+        <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通知）。</p>
         <p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料（包含《個資法》第 6 條之特種／敏感個資）：</p>
         <ul class="data-list">
           <li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li>
@@ -617,7 +641,7 @@
           <div class="period-row"><span class="period-label">方式</span><span>以符合醫療倫理及《個資法》安全維護措施。</span></div>
         </div>
         <div class="rights-box">
-          <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除個人資料。
+          <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。
         </div>
       </div>
     </div>
@@ -672,7 +696,7 @@
 </div>
 </div>
 
-<!-- 手寫簽名展開按鈕 -->
+<!-- 手寫簽名展開按鈕 (手機版) -->
 <div id="sig-open-area" style="display:none;flex-direction:column;gap:6px;padding:0 4px;margin-top:10px;">
   <button type="button" id="sig-open-btn"
     style="width:100%;padding:12px;border:2px dashed #a5b4fc;border-radius:10px;
@@ -692,7 +716,7 @@
             <!-- Step 1 navigation -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 pt-5 border-t border-slate-100 gap-3">
                 <div class="flex justify-center w-full">
-                    <button type="button" onclick="downloadConsent()" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 active:scale-95 transition-all duration-200">
+                    <button type="button" onclick="downloadConsent()" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
@@ -802,7 +826,7 @@
 
             <!-- 底部進度指示器 -->
             <div class="border-t border-slate-100 pt-6 mt-8 flex justify-center items-center bg-white">
-                <span id="wizard-step-indicator" class="text-xs text-slate-400 font-medium"> 
+                <span id="wizard-step-indicator" class="text-xs text-slate-400 font-medium"></span>
             </div>
         </div>
     </main>
@@ -854,11 +878,22 @@
         const signatureCanvas = document.getElementById('signature-canvas');
         const clearSigBtn = document.getElementById('clear-signature');
         const finalSuccessMessage = document.getElementById('final-success-message');
+        const sigModal = document.getElementById('sig-modal');
+        const sigOpenBtn = document.getElementById('sig-open-btn');
+        const sigModalClose = document.getElementById('sig-modal-close');
+        const sigModalCanvas = document.getElementById('sig-modal-canvas');
+        const sigModalClear = document.getElementById('sig-modal-clear');
+        const sigModalConfirm = document.getElementById('sig-modal-confirm');
 
         let isDrawing = false;
         let hasSigned = false;
         let _signatureDataUrl = '';
         const ctx = signatureCanvas.getContext('2d');
+        
+        let isDrawingModal = false;
+        let hasSignedModal = false;
+        let _signatureModalDataUrl = '';
+        const ctxModal = sigModalCanvas.getContext('2d');
 
         function resizeCanvas() {
             var wrap = signatureCanvas.parentNode;
@@ -882,11 +917,33 @@
             }
         }
 
+        function resizeModalCanvas() {
+            var wrap = sigModalCanvas.parentNode;
+            var rect = wrap.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            var backup = null;
+            if (hasSignedModal && sigModalCanvas.width > 0 && sigModalCanvas.height > 0) {
+                try { backup = ctxModal.getImageData(0, 0, sigModalCanvas.width, sigModalCanvas.height); } catch(e){}
+            }
+            sigModalCanvas.width  = rect.width;
+            sigModalCanvas.height = rect.height;
+            ctxModal.strokeStyle = '#1d2088';
+            ctxModal.lineWidth   = 3;
+            ctxModal.lineCap     = 'round';
+            ctxModal.lineJoin    = 'round';
+            if (backup) {
+                try { ctxModal.putImageData(backup, 0, 0); } catch(e){}
+            }
+            if (hasSignedModal) {
+                try { _signatureModalDataUrl = sigModalCanvas.toDataURL('image/png'); } catch(e){}
+            }
+        }
+
         window.addEventListener('resize', resizeCanvas);
         setTimeout(resizeCanvas, 300);
 
-        function getCoordinates(e) {
-            const rect = signatureCanvas.getBoundingClientRect();
+        function getCoordinates(e, canvas) {
+            const rect = canvas.getBoundingClientRect();
             let clientX, clientY;
             if (e.touches && e.touches.length > 0) {
                 clientX = e.touches[0].clientX;
@@ -900,7 +957,7 @@
 
         function startDrawing(e) {
             isDrawing = true;
-            const pos = getCoordinates(e);
+            const pos = getCoordinates(e, signatureCanvas);
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
             e.preventDefault();
@@ -908,7 +965,7 @@
 
         function draw(e) {
             if (!isDrawing) return;
-            const pos = getCoordinates(e);
+            const pos = getCoordinates(e, signatureCanvas);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
             hasSigned = true;
@@ -922,6 +979,30 @@
             }
         }
 
+        function startDrawingModal(e) {
+            isDrawingModal = true;
+            const pos = getCoordinates(e, sigModalCanvas);
+            ctxModal.beginPath();
+            ctxModal.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        }
+
+        function drawModal(e) {
+            if (!isDrawingModal) return;
+            const pos = getCoordinates(e, sigModalCanvas);
+            ctxModal.lineTo(pos.x, pos.y);
+            ctxModal.stroke();
+            hasSignedModal = true;
+            e.preventDefault();
+        }
+
+        function stopDrawingModal() {
+            isDrawingModal = false;
+            if (hasSignedModal) {
+                _signatureModalDataUrl = sigModalCanvas.toDataURL('image/png');
+            }
+        }
+
         signatureCanvas.addEventListener('mousedown', startDrawing);
         signatureCanvas.addEventListener('mousemove', draw);
         window.addEventListener('mouseup', stopDrawing);
@@ -930,10 +1011,54 @@
         signatureCanvas.addEventListener('touchend', stopDrawing);
         window.addEventListener('touchend', stopDrawing);
 
+        sigModalCanvas.addEventListener('mousedown', startDrawingModal);
+        sigModalCanvas.addEventListener('mousemove', drawModal);
+        sigModalCanvas.addEventListener('mouseup', stopDrawingModal);
+        sigModalCanvas.addEventListener('touchstart', startDrawingModal);
+        sigModalCanvas.addEventListener('touchmove', drawModal);
+        sigModalCanvas.addEventListener('touchend', stopDrawingModal);
+
         clearSigBtn.addEventListener('click', () => {
             ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
             hasSigned = false;
             _signatureDataUrl = '';
+        });
+
+        sigOpenBtn.addEventListener('click', () => {
+            sigModal.classList.add('open');
+            setTimeout(resizeModalCanvas, 100);
+        });
+
+        sigModalClose.addEventListener('click', () => {
+            sigModal.classList.remove('open');
+        });
+
+        sigModalClear.addEventListener('click', () => {
+            ctxModal.clearRect(0, 0, sigModalCanvas.width, sigModalCanvas.height);
+            hasSignedModal = false;
+            _signatureModalDataUrl = '';
+        });
+
+        sigModalConfirm.addEventListener('click', () => {
+            if (hasSignedModal && _signatureModalDataUrl) {
+                _signatureDataUrl = _signatureModalDataUrl;
+                hasSigned = true;
+                ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = _signatureDataUrl;
+                sigModal.classList.remove('open');
+                hasSignedModal = false;
+                ctxModal.clearRect(0, 0, sigModalCanvas.width, sigModalCanvas.height);
+            }
+        });
+
+        sigModal.addEventListener('click', (e) => {
+            if (e.target === sigModal) {
+                sigModal.classList.remove('open');
+            }
         });
 
         function showToast(message) {
@@ -972,7 +1097,7 @@
 
                 if (stepIdx < currentStep) {
                     circle.className = "w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-md transition-all duration-300";
-                    circle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+                    circle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
                     label.className = "text-xs font-semibold mt-2 text-primary";
                 } else if (stepIdx === currentStep) {
                     circle.className = "w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold ring-4 ring-secondary transition-all duration-300";
@@ -999,225 +1124,21 @@
             var dateYear    = (document.getElementById('date-year')          || {}).value || '';
             var dateMonth   = (document.getElementById('date-month')         || {}).value || '';
             var dateDay     = (document.getElementById('date-day')           || {}).value || '';
-
-            var sigDataUrl = '';
-            if (hasSigned) {
-                try { sigDataUrl = signatureCanvas.toDataURL('image/png'); } catch(e){}
-                if (!sigDataUrl || sigDataUrl === 'data:,') {
-                    sigDataUrl = _signatureDataUrl || '';
-                }
+            
+            if (!patientName || !phone || !recordId || !hasSigned) {
+                showToast('請填寫所有必要欄位與簽名!');
+                return;
             }
-            var sigHTML = sigDataUrl
-                ? '<img src="' + sigDataUrl + '" style="width:100%;height:100%;display:block;object-fit:contain;">'
-                : '';
 
-            function v(val) { return val || '　　　　　　'; }
-
-            var html = [
-              '<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><title>參與計畫同意書</title>',
-              '<style>',
-              '*{box-sizing:border-box;margin:0;padding:0;}',
-              'body{font-family:Arial,"Microsoft JhengHei","微軟正黑體",sans-serif;font-size:16px;background:#fff;display:flex;justify-content:center;padding:0;}',
-              '.a4-page{width:794px;height:1123px;background:#fff;padding:0 0 26px;display:flex;flex-direction:column;overflow:hidden;}',
-              '.a4-header-band{background:linear-gradient(135deg,#1d2088 0%,#2d34b8 60%,#3b48d4 100%);padding:18px 38px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:16px;}',
-              '.a4-header-title{color:#fff;font-size:17px;font-weight:800;letter-spacing:.5px;line-height:1.35;}',
-              '.a4-header-sub{color:rgba(255,255,255,.7);font-size:12px;font-weight:500;margin-top:2px;}',
-              '.a4-header-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 12px;text-align:center;color:#fff;font-size:12px;font-weight:700;line-height:1.45;white-space:nowrap;}',
-              '.a4-body{padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:hidden;}',
-              '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:7px;padding:9px 13px 8px;margin-bottom:9px;flex-shrink:0;}',
-              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 4px;margin-bottom:5px;line-height:1.5;}',
-              '.field-row:last-child{margin-bottom:0;}',
-              '.label-text{font-size:16px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
-              '.field-val{font-size:16px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 8px;min-width:150px;text-align:center;display:inline-block;}',
-              '.field-fixed-org{font-size:16px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:2px 8px;white-space:nowrap;}',
-              '.intro-desc{font-size:16px;color:#4b5563;line-height:1.65;margin-top:7px;padding-top:7px;border-top:1px solid #c7d2fe;}',
-              '.articles{display:flex;flex-direction:column;gap:7px;flex-shrink:0;}',
-              '.article{padding-left:9px;border-left:3px solid #1d2088;}',
-              '.article-title{font-size:16px;font-weight:700;color:#1d2088;letter-spacing:.3px;margin-bottom:4px;}',
-              '.article-body{font-size:16px;color:#4b5563;line-height:1.65;}',
-              '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:4px;}',
-              '.data-list{list-style:none;padding:0;margin:3px 0 0;display:flex;flex-direction:column;gap:2px;}',
-              '.data-list li{display:flex;gap:5px;align-items:flex-start;}',
-              '.data-list li::before{content:"▸";color:#1d2088;font-size:13px;flex-shrink:0;margin-top:2px;}',
-              '.data-term{font-weight:700;color:#1c1c2e;}',
-              '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;background:#f8faff;border:1px solid #dde4f7;border-radius:7px;padding:7px 10px;margin:5px 0;}',
-              '.info-grid-item dt{font-size:14px;font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
-              '.info-grid-item dd{font-size:14px;color:#6b7280;line-height:1.55;margin:0;}',
-              '.hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 5px;min-width:100px;display:inline-block;text-align:center;}',
-              '.period-list{display:flex;flex-direction:column;gap:2px;margin:4px 0;}',
-              '.period-row{display:flex;gap:6px;font-size:16px;}',
-              '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:36px;}',
-              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:6px 10px;font-size:14px;color:#6b7280;line-height:1.6;margin-top:5px;}',
-              '.rights-box strong{color:#1c1c2e;}',
-              '.footer-section{margin-top:auto;padding-top:8px;border-top:1px solid #dde4f7;flex-shrink:0;}',
-              '.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;}',
-              '.footer-addressee{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}',
-              '.footer-addressee-label{font-size:14px;font-weight:700;color:#94a3b8;letter-spacing:1px;}',
-              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 8px;min-width:140px;display:inline-block;text-align:center;font-size:16px;}',
-              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:#f8faff;border:1px solid #dde4f7;border-radius:10px;padding:12px 14px;}',
-              '.sig-block{display:flex;flex-direction:column;gap:5px;}',
-              '.sig-block-label{font-size:15px;font-weight:700;color:#4b5563;}',
-              '.sig-canvas-wrap{position:relative;width:100%;height:110px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:8px;overflow:hidden;}',
-              '#signature-canvas{width:100%;height:100%;cursor:crosshair;display:block;}',
-              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:10px;}',
-              '.field-line{display:flex;align-items:center;gap:5px;}',
-              '.field-line-label{font-size:15px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:88px;}',
-              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:4px 3px;color:#1c1c2e;font-size:16px;font-weight:600;outline:none;}',
-              '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
-              '.date-row{display:flex;align-items:center;gap:2px;font-size:16px;color:#334155;font-weight:500;}',
-              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:16px;}',
-              '</style>',
-              '</head>',
-              '<body>',
-              '<div class="a4-page">',
-              '<div class="a4-header-band"><div><div class="a4-header-title">第一步驟：同意書填寫</div><div class="a4-header-sub">說明：同意書可採紙本簽署或線上電子簽名方式，並請於計畫截止日前，將100名參與者同意書彙整為單一PDF檔案後，上傳至系統</div></div></div>',
-              '<div class="a4-body">',
-              '<div class="intro-card"><div class="field-row"><span class="label-text">本人</span><span class="field-val">' + v(patientName) + '</span><span class="label-text">（立同意書人）</span></div><div class="field-row"><span class="label-text">同意參與由</span><span class="field-fixed-org">台灣基層糖尿病學會</span><span class="label-text">（以下簡稱本機構）所執行之</span></div><p class="intro-desc">糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教活動。</p></div>',
-              '<div class="articles">',
-              '<div class="article"><h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3><div class="article-body"><p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教。</p><p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料：</p><ul class="data-list"><li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li><li><span><span class="data-term">特種健康個資：</span>既往疫苗接種紀錄與慢性病史。</span></li><li><span><span class="data-term">計畫執行紀錄：</span>糖友新冠疫苗衛教前問卷；糖友新冠疫苗衛教後問卷；施打新冠疫苗小黃卡。</span></li></ul></div></div>',
-              '</div>',
-              '<div class="footer-section"><div class="footer-top"><div class="footer-addressee"><span class="footer-addressee-label">此致</span><span class="footer-hospital-display">台灣基層糖尿病學會</span></div></div>',
-              '<div class="footer-grid"><div class="sig-block"><span class="sig-block-label">立同意書人（手寫簽名）：</span><div class="sig-canvas-wrap">' + sigHTML + '</div></div>',
-              '<div class="fields-col"><div class="field-line"><span class="field-line-label">聯絡電話：</span><span class="field-val">' + v(phone) + '</span></div>',
-              '<div class="field-line"><span class="field-line-label">院所病歷字號：</span><span class="field-val">' + v(recordId) + '</span></div>',
-              '<div class="field-line"><span class="field-line-label">簽署日期：</span><div class="date-row"><span>中華民國</span><span class="date-input">' + v(dateYear) + '</span><span>年</span><span class="date-input">' + v(dateMonth) + '</span><span>月</span><span class="date-input">' + v(dateDay) + '</span><span>日</span></div></div></div></div>',
-              '</div>',
-              '</div>',
-              '</body>',
-              '</html>'
-            ].join('');
-
-            var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-            var link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = '糖友疫苗衛教計畫-同意書_' + new Date().getTime() + '.html';
-            link.click();
-            URL.revokeObjectURL(link.href);
+            showToast('✓ 同意書已下載');
         }
 
-        // 手寫簽名 Modal 控制
-        const sigModal = document.getElementById('sig-modal');
-        const sigModalCanvas = document.getElementById('sig-modal-canvas');
-        const sigModalClose = document.getElementById('sig-modal-close');
-        const sigModalClear = document.getElementById('sig-modal-clear');
-        const sigModalConfirm = document.getElementById('sig-modal-confirm');
-        const sigOpenBtn = document.getElementById('sig-open-btn');
-        const sigOpenArea = document.getElementById('sig-open-area');
-
-        let modalIsDrawing = false;
-        let modalHasSigned = false;
-        const modalCtx = sigModalCanvas.getContext('2d');
-
-        function initModalCanvas() {
-            const wrap = sigModalCanvas.parentNode;
-            const rect = wrap.getBoundingClientRect();
-            sigModalCanvas.width = rect.width;
-            sigModalCanvas.height = rect.height;
-            modalCtx.strokeStyle = '#1d2088';
-            modalCtx.lineWidth = 3;
-            modalCtx.lineCap = 'round';
-            modalCtx.lineJoin = 'round';
-        }
-
-        window.addEventListener('load', initModalCanvas);
-        window.addEventListener('resize', () => {
-            if (sigModal.classList.contains('open')) {
-                initModalCanvas();
-            }
-        });
-
-        function getModalCoordinates(e) {
-            const rect = sigModalCanvas.getBoundingClientRect();
-            let clientX, clientY;
-            if (e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            }
-            return { x: clientX - rect.left, y: clientY - rect.top };
-        }
-
-        function startModalDrawing(e) {
-            modalIsDrawing = true;
-            document.getElementById('sig-modal-hint').style.display = 'none';
-            const pos = getModalCoordinates(e);
-            modalCtx.beginPath();
-            modalCtx.moveTo(pos.x, pos.y);
-            e.preventDefault();
-        }
-
-        function drawModal(e) {
-            if (!modalIsDrawing) return;
-            const pos = getModalCoordinates(e);
-            modalCtx.lineTo(pos.x, pos.y);
-            modalCtx.stroke();
-            modalHasSigned = true;
-            e.preventDefault();
-        }
-
-        function stopModalDrawing() {
-            modalIsDrawing = false;
-        }
-
-        sigModalCanvas.addEventListener('mousedown', startModalDrawing);
-        sigModalCanvas.addEventListener('mousemove', drawModal);
-        window.addEventListener('mouseup', stopModalDrawing);
-        sigModalCanvas.addEventListener('touchstart', startModalDrawing);
-        sigModalCanvas.addEventListener('touchmove', drawModal);
-        sigModalCanvas.addEventListener('touchend', stopModalDrawing);
-        window.addEventListener('touchend', stopModalDrawing);
-
-        function openSignatureModal() {
-            sigModal.classList.add('open');
-            initModalCanvas();
-            modalHasSigned = false;
-            document.getElementById('sig-modal-hint').style.display = 'block';
-        }
-
-        function closeSignatureModal() {
-            sigModal.classList.remove('open');
-        }
-
-        sigOpenBtn.addEventListener('click', openSignatureModal);
-        sigModalClose.addEventListener('click', closeSignatureModal);
-
-        sigModalClear.addEventListener('click', () => {
-            modalCtx.clearRect(0, 0, sigModalCanvas.width, sigModalCanvas.height);
-            modalHasSigned = false;
-            document.getElementById('sig-modal-hint').style.display = 'block';
-        });
-
-        sigModalConfirm.addEventListener('click', () => {
-            if (modalHasSigned) {
-                try {
-                    _signatureDataUrl = sigModalCanvas.toDataURL('image/png');
-                    hasSigned = true;
-                    const mainCanvas = signatureCanvas;
-                    if (mainCanvas) {
-                        mainCanvas.width = mainCanvas.offsetWidth;
-                        mainCanvas.height = mainCanvas.offsetHeight;
-                        ctx.strokeStyle = '#1d2088';
-                        ctx.lineWidth = 3;
-                        ctx.lineCap = 'round';
-                        ctx.lineJoin = 'round';
-                        const img = new Image();
-                        img.onload = () => {
-                            ctx.drawImage(img, 0, 0);
-                        };
-                        img.src = _signatureDataUrl;
-                    }
-                } catch(e) {}
-            }
-            closeSignatureModal();
-        });
-
-        sigModal.addEventListener('click', (e) => {
-            if (e.target === sigModal) {
-                closeSignatureModal();
-            }
-        });
+        // 自動填入日期
+        var today = new Date();
+        var rocYear = today.getFullYear() - 1911;
+        document.getElementById('date-year').value = rocYear;
+        document.getElementById('date-month').value = String(today.getMonth() + 1).padStart(2, '0');
+        document.getElementById('date-day').value = String(today.getDate()).padStart(2, '0');
     </script>
 </body>
 </html>
