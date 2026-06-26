@@ -11,8 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1d2088',    // 官方深藍主色
-                        secondary: '#e8e9f2',  // 淡藍灰背景色
+                        primary: '#1d2088',
+                        secondary: '#e8e9f2',
                     }
                 }
             }
@@ -44,8 +44,38 @@
 ═══════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;}
 
-/* ── Print button — fixed bottom-right ── */
-/* btn-download 已移除 */
+/* ── 頁面標頭橫幅 ── */
+.page-header-banner {
+  background: linear-gradient(135deg, #1d2088 0%, #2d34b8 50%, #3b48d4 100%);
+  color: #fff;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(29,32,136,0.15);
+  margin-bottom: 24px;
+}
+.page-header-banner h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px 0;
+}
+.page-header-banner p {
+  font-size: 14px;
+  opacity: 0.85;
+  margin: 0;
+  line-height: 1.5;
+}
+@media(max-width:600px) {
+  .page-header-banner {
+    padding: 18px 12px;
+  }
+  .page-header-banner h1 {
+    font-size: 22px;
+  }
+  .page-header-banner p {
+    font-size: 12px;
+  }
+}
 
 /* ── A4 page shell ── */
 .a4-page{
@@ -86,7 +116,6 @@
   overflow:hidden;
   position:relative;
 }
-/* 確保 .a4-page 的 transform 不會困住 fixed 子元素 */
 .a4-scaler, .a4-page { isolation: auto; }
 @media(max-width:840px){
   .a4-scaler{
@@ -96,7 +125,6 @@
   .a4-page{
     transform-origin:top left;
     transform:scale(var(--a4-scale,1));
-    /* JS 會動態設定 scaler height，此處不設 margin-bottom */
   }
 }
 
@@ -153,7 +181,7 @@
 .data-list li::before{content:'▸';color:#1d2088;font-size:13px;flex-shrink:0;margin-top:2px;}
 .data-term{font-weight:700;color:#1c1c2e;}
 
-/* ── Info grid (第二條) ── */
+/* ── Info grid ── */
 .info-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;
   background:#f8faff;border:1px solid #dde4f7;border-radius:7px;
@@ -247,29 +275,23 @@
 
 /* ── Mobile responsive: 手機單欄折疊 ── */
 @media(max-width:600px){
-  /* footer-grid: 簽名＋欄位 → 單欄 */
   .footer-grid{
     grid-template-columns:1fr !important;
     gap:12px;
   }
-  /* info-grid: 蒐集機關名稱等 → 單欄 */
   .info-grid{
     grid-template-columns:1fr !important;
   }
-  /* field-line-label 縮短 min-width */
   .field-line-label{
     min-width:70px !important;
     font-size:13px !important;
   }
-  /* 欄位輸入框字體縮小 */
   .field-line-input, .field-input{
     font-size:14px !important;
   }
-  /* date-row 字體縮小 */
   .date-row, .date-input{
     font-size:14px !important;
   }
-  /* header band 縮小 */
   .a4-header-band{
     padding:12px 16px 10px !important;
     flex-wrap:wrap;
@@ -278,105 +300,150 @@
   .a4-header-title{ font-size:14px !important; }
   .a4-header-sub{ font-size:10px !important; }
   .a4-header-badge{ font-size:10px !important; padding:4px 8px !important; }
-  /* article 字體 */
   .article-title{ font-size:13px !important; }
   .article-body, .period-row, .rights-box{ font-size:13px !important; }
   .label-text{ font-size:14px !important; }
   .intro-desc{ font-size:13px !important; }
-  /* sig canvas 高度縮小 */
   .sig-canvas-wrap{ height:90px !important; }
-  /* 簽名區塊全寬 */
   .sig-block{ width:100%; }
 }
 
-/* ── 手機簽名 Modal ── */
+/* ── 手機簽名 Modal (固定在正中間) ── */
 #sig-modal{
   display:none;
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.55);
   z-index:9999;
-  align-items:flex-end;      /* 從底部往上彈出，更符合手機操作習慣 */
+  align-items:center;
   justify-content:center;
-  padding:0;
-}
-/* 桌機置中 */
-@media(min-width:600px){
-  #sig-modal{ align-items:center; padding:16px; }
+  padding:16px;
 }
 #sig-modal.open{ display:flex; }
 #sig-modal-inner{
   background:#fff;
-  border-radius:20px 20px 0 0;   /* 手機：上圓角、底部貼邊 */
+  border-radius:16px;
   padding:0;
   width:100%;
-  max-width:100%;
-  /* 最高佔 92% 視口，確保不超出螢幕 */
-  max-height:92dvh;
-  max-height:92vh;
-  box-shadow:0 -8px 32px rgba(0,0,0,.22);
-  display:flex;flex-direction:column;
+  max-width:520px;
+  max-height:80vh;
+  box-shadow:0 16px 48px rgba(0,0,0,.28);
+  display:flex;
+  flex-direction:column;
   overflow:hidden;
 }
-/* 桌機：浮窗樣式 */
-@media(min-width:600px){
+@media(max-width:600px){
   #sig-modal-inner{
-    border-radius:16px;
-    max-width:520px;
-    box-shadow:0 16px 48px rgba(0,0,0,.28);
+    border-radius:20px 20px 0 0;
+    max-width:100%;
+    max-height:92vh;
+    box-shadow:0 -8px 32px rgba(0,0,0,.22);
   }
 }
 #sig-modal-header{
   background:linear-gradient(135deg,#1d2088 0%,#2d34b8 100%);
-  color:#fff;padding:14px 18px;
-  display:flex;align-items:center;justify-content:space-between;
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
   flex-shrink:0;
 }
 #sig-modal-header h3{font-size:16px;font-weight:700;margin:0;}
 #sig-modal-header p{font-size:12px;opacity:.75;margin:2px 0 0;}
 #sig-modal-close{
-  background:rgba(255,255,255,.2);border:none;color:#fff;
-  width:32px;height:32px;border-radius:50%;font-size:18px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.2);
+  border:none;
+  color:#fff;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   flex-shrink:0;
+  transition:background 0.2s;
+}
+#sig-modal-close:hover{
+  background:rgba(255,255,255,.3);
 }
 #sig-modal-canvas-wrap{
   position:relative;
   background:#fafbff;
   border-bottom:1px solid #e2e8f0;
   touch-action:none;
-  flex:1 1 0;          /* 佔滿剩餘空間，header 和 footer 固定，canvas 自動收縮 */
-  min-height:140px;
+  flex:1 1 0;
+  min-height:200px;
   overflow:hidden;
 }
 #sig-modal-canvas{
   display:block;
   width:100%;
-  height:100%;         /* 填滿父容器高度 */
-  touch-action:none;user-select:none;-webkit-user-select:none;
+  height:100%;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
   cursor:crosshair;
 }
 #sig-modal-hint{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  color:#c7d2fe;font-size:14px;font-weight:500;pointer-events:none;
-  text-align:center;line-height:1.5;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#c7d2fe;
+  font-size:14px;
+  font-weight:500;
+  pointer-events:none;
+  text-align:center;
+  line-height:1.5;
 }
 #sig-modal-footer{
-  padding:12px 16px;display:flex;gap:10px;align-items:center;flex-shrink:0;
+  padding:12px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-shrink:0;
+  background:#f8faff;
 }
 #sig-modal-clear{
-  flex:1;padding:10px;border:1.5px solid #94a3b8;border-radius:10px;
-  background:#fff;color:#64748b;font-size:15px;font-weight:700;
-  font-family:Arial,'Microsoft JhengHei',sans-serif;cursor:pointer;
+  flex:1;
+  padding:10px;
+  border:1.5px solid #94a3b8;
+  border-radius:10px;
+  background:#fff;
+  color:#64748b;
+  font-size:15px;
+  font-weight:700;
+  font-family:Arial,'Microsoft JhengHei',sans-serif;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+#sig-modal-clear:hover{
+  background:#f1f5f9;
 }
 #sig-modal-confirm{
-  flex:2;padding:10px;border:none;border-radius:10px;
-  background:#1d2088;color:#fff;font-size:15px;font-weight:700;
-  font-family:Arial,'Microsoft JhengHei',sans-serif;cursor:pointer;
+  flex:2;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#1d2088;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  font-family:Arial,'Microsoft JhengHei',sans-serif;
+  cursor:pointer;
   box-shadow:0 4px 12px rgba(29,32,136,.3);
+  transition:all 0.2s;
 }
-#sig-modal-confirm:active{ transform:scale(.97); }
+#sig-modal-confirm:hover{
+  box-shadow:0 6px 16px rgba(29,32,136,.4);
+}
+#sig-modal-confirm:active{ 
+  transform:scale(.97); 
+}
 
-/* ── 手機版：在 A4 簽名區顯示「展開手寫」按鈕 ── */
 #sig-open-btn:active{ background:#e0e7ff; }
 @media print { #sig-open-area { display:none !important; } }
 
@@ -394,7 +461,6 @@
   .sig-clear-btn{display:none !important;}
 }
 
-/* 列印時隱藏流程版 header/footer/progress，只印 A4 同意書 */
 @media print {
   header, footer, .mb-8, #wizard-step-indicator { display:none !important; }
   main { padding:0 !important; }
@@ -402,27 +468,25 @@
   #step-content-1 > *:not(#a4-page):not(div:has(#a4-page)) { display:none !important; }
   #step-content-2, #step-content-3, #step-content-4 { display:none !important; }
   .step-nav-bar { display:none !important; }
+  .page-header-banner { display:none !important; }
 }
-        /* ── 步驟標籤手機字體縮小 ── */
-        @media(max-width:480px){
-          .step-node span { font-size:0.65rem !important; }
-          .step-node div  { width:2rem !important; height:2rem !important; font-size:0.8rem !important; }
-        }
+
+@media(max-width:480px){
+  .step-node span { font-size:0.65rem !important; }
+  .step-node div  { width:2rem !important; height:2rem !important; font-size:0.8rem !important; }
+}
     </style>
     <script>
-        /* ── A4 自動縮放：讓 A4 在手機上完整顯示不跑版 ── */
         function scaleA4() {
             var scaler = document.getElementById('a4-scaler');
             var page   = document.getElementById('a4-page');
             if (!scaler || !page) return;
-            // 取得外層容器可用寬度（扣掉 padding）
             var available = scaler.getBoundingClientRect().width || scaler.offsetWidth;
             var A4W = 794, A4H = 1123;
             if (available < A4W) {
                 var scale = available / A4W;
                 page.style.cssText += ';transform:scale(' + scale + ');transform-origin:top left;';
                 page.style.setProperty('--a4-scale', scale);
-                // 縮放後實際佔用高度
                 scaler.style.height = Math.ceil(A4H * scale) + 'px';
                 scaler.style.overflow = 'hidden';
             } else {
@@ -438,6 +502,11 @@
 </head>
 <body class="bg-secondary text-slate-800 min-h-screen flex flex-col justify-between">
 
+    <!-- ═══ 頁面標頭橫幅 ═══ -->
+    <div class="page-header-banner">
+        <h1>糖尿病疫苗衛教計畫</h1>
+        <p>線上互動衛教平台｜歡迎參與糖尿病病友新冠疫苗衛教與施打促進計畫</p>
+    </div>
 
     <main class="max-w-4xl mx-auto px-2 sm:px-4 py-4 sm:py-8 flex-grow w-full">
         <!-- 進度條與頁面跳轉切換器 -->
@@ -469,14 +538,14 @@
         <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-4 sm:p-10 min-h-[450px] flex flex-col justify-between relative">
             
             <!-- 錯誤/提示訊息浮窗 -->
-            <div id="toast-message" class="absolute top-4 left-1/2 -translate-x-1/2 bg-rose-500 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg transform -translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <div id="toast-message" class="absolute top-4 left-1/2 -translate-x-1/2 bg-rose-500 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg transform -translate-y-20 opacity-0 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
                 <span id="toast-text">請填寫所有必要欄位!</span>
             </div>
 
-            <!-- STEP 1: 同意書填寫（consent_form 完整設計） -->
+            <!-- STEP 1: 同意書填寫 -->
             <div id="step-content-1" class="step-transition">
 
 <!-- ── A4 Document ── -->
@@ -487,7 +556,7 @@
   <div class="a4-header-band">
     <div>
       <div class="a4-header-title">第一步驟：同意書填寫</div>
-      <div class="a4-header-sub">說明：同意書可採紙本簽署或線上電子簽名方式，並請於計畫截止日前，將100名參與者同意書彙整為單一PDF檔案後，上傳至系統中。</div>
+      <div class="a4-header-sub">說明：同意書可採紙本簽署或線上電子簽名方式，並請於計畫截止日前，將100名參與者同意書彙整為單一PDF檔案後，上傳至系統</div>
     </div>
   </div>
 
@@ -506,7 +575,7 @@
       <span class="label-text">（以下簡稱本機構）所執行之</span>
     </div>
     <p class="intro-desc">
-      糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教。
+      糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教活動。
     </p>
   </div>
 
@@ -516,7 +585,7 @@
     <div class="article">
       <h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
-        <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>
+        <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通信聯繫）。</p>
         <p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料（包含《個資法》第 6 條之特種／敏感個資）：</p>
         <ul class="data-list">
           <li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li>
@@ -548,12 +617,12 @@
           <div class="period-row"><span class="period-label">方式</span><span>以符合醫療倫理及《個資法》安全維護措施。</span></div>
         </div>
         <div class="rights-box">
-          <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。您得隨時自由選擇是否提供個人資料，惟若不提供，本機構將可能無法為您提供本計畫之完整衛教服務。
+          <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除個人資料。
         </div>
       </div>
     </div>
 
-  </div><!-- /articles -->
+  </div>
 
   <!-- Footer / Signature -->
   <div class="footer-section">
@@ -598,17 +667,18 @@
     </div>
   </div>
 
-  </div><!-- /a4-body -->
+  </div>
 
-</div><!-- /a4-page -->
-</div><!-- /a4-scaler -->
-<!-- 手寫簽名展開按鈕（移至 A4 外，不受 overflow:hidden 裁切）-->
+</div>
+</div>
+
+<!-- 手寫簽名展開按鈕 -->
 <div id="sig-open-area" style="display:none;flex-direction:column;gap:6px;padding:0 4px;margin-top:10px;">
   <button type="button" id="sig-open-btn"
     style="width:100%;padding:12px;border:2px dashed #a5b4fc;border-radius:10px;
            background:#f0f4ff;color:#1d2088;font-family:Arial,'Microsoft JhengHei',sans-serif;
            font-size:14px;font-weight:700;cursor:pointer;
-           display:flex;align-items:center;justify-content:center;gap:8px;">
+           display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l6.364-6.364a2 2 0 112.828 2.828L11.828 13.828A4 4 0 019 15H7v-2a4 4 0 012-3.414z"/>
     </svg>
@@ -619,31 +689,29 @@
            object-fit:contain;background:#fafbff;"/>
 </div>
 
-
             <!-- Step 1 navigation -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 pt-5 border-t border-slate-100 gap-3">
-                <!-- 下載按鈕（置中）-->
-              <div class="flex justify-center w-full">
-                <button type="button" onclick="downloadConsent()" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
-                  下載同意書
-                </button>
-              </div>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 pt-5 border-t border-slate-100 gap-3">
+                <div class="flex justify-center w-full">
+                    <button type="button" onclick="downloadConsent()" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 active:scale-95 transition-all duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        下載同意書
+                    </button>
+                </div>
             </div>
 
             <!-- 同意書上傳平台 -->
-            <div class="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-6 p-6">
-                <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-3 shadow-sm">
+            <div class="flex flex-col items-center justify-center py-10 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-dashed border-slate-300 mt-6 p-6">
+                <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-3 shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
                 </div>
                 <p class="text-slate-600 font-semibold text-base mb-1 text-center">同意書上傳平台</p>
-                <p class="text-slate-400 text-sm mb-5 text-center">請將100名參與者之同意書彙整為單一PDF檔案後，於計畫截止日前上傳至本系統</p>
+                <p class="text-slate-500 text-sm mb-5 text-center">請將100名參與者之同意書彙整為單一PDF檔案後，於計畫截止日前上傳至本系統</p>
                 <a href="https://www.surveycake.com/s/7z2gA" target="_blank"
-                   class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                   class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 transition-all flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
@@ -663,13 +731,13 @@
                     <p class="text-slate-500 text-sm mt-1">請點擊下方按鈕完成衛教『前』問卷。</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200 my-6 p-6">
-                    <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-sm">
+                <div class="flex flex-col items-center justify-center py-10 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-dashed border-slate-300 my-6 p-6">
+                    <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                     </div>
-                    <a href="https://www.surveycake.com/s/ewlLa" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                    <a href="https://www.surveycake.com/s/ewlLa" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 transition-all flex items-center gap-2">
                         <span>開啟 衛教前問卷</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -687,13 +755,13 @@
                     <p class="text-slate-500 text-sm mt-1">請點擊下方按鈕完成衛教『後』問卷。</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200 my-6 p-6">
-                    <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-sm">
+                <div class="flex flex-col items-center justify-center py-10 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-dashed border-slate-300 my-6 p-6">
+                    <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                     </div>
-                    <a href="https://www.surveycake.com/s/yXzPR" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                    <a href="https://www.surveycake.com/s/yXzPR" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 transition-all flex items-center gap-2">
                         <span>開啟 衛教後問卷</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -708,17 +776,17 @@
                 <div>
                     <div class="mb-6">
                         <span class="px-3 py-1 text-base font-semibold text-primary bg-secondary rounded-full">第四步驟：上傳小黃卡或收據</span>
-                        <h2 class="text-2xl font-bold text-slate-800 mt-2">上傳新冠疫苗接種紀錄(小黃卡或施打疫苗收據</h2>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-2">上傳新冠疫苗接種紀錄(小黃卡或施打疫苗收據)</h2>
                         <p class="text-slate-500 text-sm mt-1">小黃卡或施打疫苗收據必須清楚載明施打者姓名。</p>
                     </div>
 
-                    <div class="flex flex-col items-center justify-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200 my-4 p-6">
-                        <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-sm">
+                    <div class="flex flex-col items-center justify-center py-8 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-dashed border-slate-300 my-4 p-6">
+                        <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                             </svg>
                         </div>
-                        <a href="https://www.surveycake.com/s/42yay" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                        <a href="https://www.surveycake.com/s/42yay" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:opacity-90 transition-all flex items-center gap-2">
                             <span>開啟 小黃卡或收據上傳平台</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -726,20 +794,20 @@
                         </a>
                     </div>
 
-                    <div id="final-success-message" class="hidden mt-6 p-5 bg-emerald-50 border border-emerald-100 rounded-2xl text-center">
+                    <div id="final-success-message" class="hidden mt-6 p-5 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl text-center shadow-sm">
                         <h4 class="text-lg font-bold text-emerald-800 mb-1">🎉 恭喜您完成所有步驟！</h4>
-                        <p class="text-sm text-emerald-600">您的同意書資料、衛教問卷與小黃卡紀錄已成功鏈結登錄，非常感謝您的參與。</p>
+                        <p class="text-sm text-emerald-700">您的同意書資料、衛教問卷與小黃卡紀錄已成功鏈結登錄，非常感謝您的參與。</p>
                     </div>
             </div>
 
-            <!-- 底部進度指示器（僅作標示用途） -->
+            <!-- 底部進度指示器 -->
             <div class="border-t border-slate-100 pt-6 mt-8 flex justify-center items-center bg-white">
                 <span id="wizard-step-indicator" class="text-xs text-slate-400 font-medium"> 
             </div>
         </div>
     </main>
 
-    <!-- ══ 手機手寫簽名 Modal ══ -->
+    <!-- ══ 手寫簽名 Modal (固定在正中間) ══ -->
     <div id="sig-modal" role="dialog" aria-modal="true" aria-label="同意書簽署視窗">
       <div id="sig-modal-inner">
         <div id="sig-modal-header">
@@ -762,7 +830,7 @@
 
     <footer class="bg-slate-900 text-slate-400 py-8 text-xs border-t border-slate-800">
         <div class="max-w-5xl mx-auto px-4 text-center space-y-3">
-            <p class="font-medium text-slate-300">© 2026 台灣基層糖尿病學會 (Taiwan Association of Clinical Daibetes).</p>
+            <p class="font-medium text-slate-300">© 2026 台灣基層糖尿病學會 (Taiwan Association of Clinical Diabetes).</p>
             <p class="max-w-2xl mx-auto text-slate-500 leading-relaxed">
                 本網頁為糖友疫苗衛教與施打促進計畫計畫內部專用平台。網頁內提供之健康宣導資訊僅供參考，無法代替專科醫師之現場診斷或治療。
             </p>
@@ -775,37 +843,27 @@
     </footer>
 
     <script>
-        // 狀態管理
         let currentStep = 1;
         const totalSteps = 4;
 
-        // DOM 元素選取
         const stepNodes = document.querySelectorAll('.step-node');
         const progressBar = document.getElementById('progress-bar');
         const wizardIndicator = document.getElementById('wizard-step-indicator');
         const toastMessage = document.getElementById('toast-message');
         const toastText = document.getElementById('toast-text');
-
-        // 各步驟驗證欄位
-        const consentName = document.getElementById('consent-name');
-        const consentPhone = document.getElementById('consent-phone');
         const signatureCanvas = document.getElementById('signature-canvas');
         const clearSigBtn = document.getElementById('clear-signature');
-        const sigPlaceholder = document.getElementById('signature-placeholder') || { classList: { add: function(){}, remove: function(){} } };
-        
         const finalSuccessMessage = document.getElementById('final-success-message');
 
         let isDrawing = false;
         let hasSigned = false;
-        let _signatureDataUrl = '';   // ← 全域儲存最終簽名 base64，列印時直接讀取
+        let _signatureDataUrl = '';
         const ctx = signatureCanvas.getContext('2d');
 
-        // 調整 Canvas 尺寸（保留已繪內容）
         function resizeCanvas() {
             var wrap = signatureCanvas.parentNode;
             var rect = wrap.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) return; // wrap 隱藏時跳過
-            // 若已有簽名，先備份
+            if (rect.width === 0 || rect.height === 0) return;
             var backup = null;
             if (hasSigned && signatureCanvas.width > 0 && signatureCanvas.height > 0) {
                 try { backup = ctx.getImageData(0, 0, signatureCanvas.width, signatureCanvas.height); } catch(e){}
@@ -819,7 +877,6 @@
             if (backup) {
                 try { ctx.putImageData(backup, 0, 0); } catch(e){}
             }
-            // resize 後立即更新快照，確保快照與 canvas 同步
             if (hasSigned) {
                 try { _signatureDataUrl = signatureCanvas.toDataURL('image/png'); } catch(e){}
             }
@@ -828,7 +885,6 @@
         window.addEventListener('resize', resizeCanvas);
         setTimeout(resizeCanvas, 300);
 
-        // 取得手寫座標
         function getCoordinates(e) {
             const rect = signatureCanvas.getBoundingClientRect();
             let clientX, clientY;
@@ -844,7 +900,6 @@
 
         function startDrawing(e) {
             isDrawing = true;
-            sigPlaceholder.classList.add('hidden');
             const pos = getCoordinates(e);
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
@@ -862,7 +917,6 @@
 
         function stopDrawing() {
             isDrawing = false;
-            // 每次停筆即更新全域簽名快照
             if (hasSigned) {
                 _signatureDataUrl = signatureCanvas.toDataURL('image/png');
             }
@@ -878,7 +932,6 @@
 
         clearSigBtn.addEventListener('click', () => {
             ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
-            sigPlaceholder.classList.remove('hidden');
             hasSigned = false;
             _signatureDataUrl = '';
         });
@@ -893,7 +946,6 @@
             }, 3000);
         }
 
-        // 點選進度條圓圈自動跳轉頁面
         stepNodes.forEach(node => {
             node.addEventListener('click', () => {
                 const targetStep = parseInt(node.getAttribute('data-step'));
@@ -903,7 +955,6 @@
             });
         });
 
-        // 更新介面
         function updateUI() {
             for (let i = 1; i <= totalSteps; i++) {
                 const content = document.getElementById(`step-content-${i}`);
@@ -941,11 +992,7 @@
 
         updateUI();
 
-        /* ═══════════════════════════════════════
-           下載同意書：讀取欄位值，建構靜態 HTML 後以 Blob 下載
-        ═══════════════════════════════════════ */
         function downloadConsent() {
-            // ── 直接讀取欄位當前值 ──
             var patientName = (document.getElementById('patient-name-input') || {}).value || '';
             var phone       = (document.getElementById('phone-input')        || {}).value || '';
             var recordId    = (document.getElementById('record-id-input')    || {}).value || '';
@@ -953,12 +1000,9 @@
             var dateMonth   = (document.getElementById('date-month')         || {}).value || '';
             var dateDay     = (document.getElementById('date-day')           || {}).value || '';
 
-            // ── 簽名 base64：列印前強制即時讀取，確保不受 resize 清空影響 ──
             var sigDataUrl = '';
             if (hasSigned) {
-                // 優先即時讀取（最可靠）
                 try { sigDataUrl = signatureCanvas.toDataURL('image/png'); } catch(e){}
-                // 若 canvas 已被清空（resize 副作用），回退到快照
                 if (!sigDataUrl || sigDataUrl === 'data:,') {
                     sigDataUrl = _signatureDataUrl || '';
                 }
@@ -967,7 +1011,6 @@
                 ? '<img src="' + sigDataUrl + '" style="width:100%;height:100%;display:block;object-fit:contain;">'
                 : '';
 
-            // ── 空白填充（避免底線消失）──
             function v(val) { return val || '　　　　　　'; }
 
             var html = [
@@ -1007,372 +1050,174 @@
               '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:6px 10px;font-size:14px;color:#6b7280;line-height:1.6;margin-top:5px;}',
               '.rights-box strong{color:#1c1c2e;}',
               '.footer-section{margin-top:auto;padding-top:8px;border-top:1px solid #dde4f7;flex-shrink:0;}',
-              '.footer-top{display:flex;align-items:center;margin-bottom:8px;}',
-              '.footer-addressee{display:flex;align-items:center;gap:6px;}',
+              '.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;}',
+              '.footer-addressee{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}',
               '.footer-addressee-label{font-size:14px;font-weight:700;color:#94a3b8;letter-spacing:1px;}',
               '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 8px;min-width:140px;display:inline-block;text-align:center;font-size:16px;}',
               '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:#f8faff;border:1px solid #dde4f7;border-radius:10px;padding:12px 14px;}',
               '.sig-block{display:flex;flex-direction:column;gap:5px;}',
               '.sig-block-label{font-size:15px;font-weight:700;color:#4b5563;}',
               '.sig-canvas-wrap{position:relative;width:100%;height:110px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:8px;overflow:hidden;}',
+              '#signature-canvas{width:100%;height:100%;cursor:crosshair;display:block;}',
               '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:10px;}',
               '.field-line{display:flex;align-items:center;gap:5px;}',
               '.field-line-label{font-size:15px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:88px;}',
-              '.field-line-val{flex:1;border-bottom:1.5px solid #94a3b8;padding:4px 3px;color:#1c1c2e;font-size:16px;font-weight:600;}',
-              '.field-line-val.mono{font-family:"Courier New",Courier,monospace;}',
+              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:4px 3px;color:#1c1c2e;font-size:16px;font-weight:600;outline:none;}',
+              '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
               '.date-row{display:flex;align-items:center;gap:2px;font-size:16px;color:#334155;font-weight:500;}',
-              '.date-val{text-align:center;border-bottom:1.5px solid #94a3b8;font-weight:700;color:#1d2088;font-size:16px;min-width:28px;padding:0 2px;display:inline-block;}',
-              '@page{size:A4 portrait;margin:0;}',
-              '@media print{body{display:block;}}',
-              '</style></head><body>',
+              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:16px;}',
+              '</style>',
+              '</head>',
+              '<body>',
               '<div class="a4-page">',
-                '<div class="a4-header-band">',
-                  '<div><div class="a4-header-title">參計畫同意書</div>',
-                  '<div class="a4-header-sub">糖尿病病友新冠疫苗衛教與施打促進計畫</div></div>',
-                  '<div class="a4-header-badge">台灣基層糖尿病學會<br>Taiwan Association of Clinical Daibetes</div>',
-                '</div>',
-                '<div class="a4-body">',
-                  '<div class="intro-card">',
-                    '<div class="field-row">',
-                      '<span class="label-text">本人</span>',
-                      '<span class="field-val">' + v(patientName) + '</span>',
-                      '<span class="label-text">（立同意書人）</span>',
-                    '</div>',
-                    '<div class="field-row">',
-                      '<span class="label-text">同意參與由</span>',
-                      '<span class="field-fixed-org">台灣基層糖尿病學會</span>',
-                      '<span class="label-text">（以下簡稱本機構）所執行之</span>',
-                    '</div>',
-                    '<p class="intro-desc">糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教。</p>',
-                  '</div>',
-                  '<div class="articles">',
-                    '<div class="article">',
-                      '<h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>',
-                      '<div class="article-body">',
-                        '<p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>',
-                        '<p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料（包含《個資法》第 6 條之特種／敏感個資）：</p>',
-                        '<ul class="data-list">',
-                          '<li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li>',
-                          '<li><span><span class="data-term">特種健康個資：</span>既往疫苗接種紀錄與過敏史。</span></li>',
-                          '<li><span><span class="data-term">計畫執行紀錄：</span>衛教評估表單；施打新冠疫苗小黃卡。</span></li>',
-                        '</ul>',
-                      '</div>',
-                    '</div>',
-                    '<div class="article">',
-                      '<h3 class="article-title">第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>',
-                      '<div class="article-body">',
-                        '<p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本機構向您明確告知下列事項：</p>',
-                        '<div class="info-grid">',
-                          '<div class="info-grid-item"><dt>蒐集機關名稱</dt><dd><span class="hospital-display">台灣基層糖尿病學會</span></dd></div>',
-                          '<div class="info-grid-item"><dt>蒐集之特定目的</dt><dd>(063) 醫事、衛生傳播及衛教。<br>(064) 醫療、照護及衛生行政事務。<br>(157) 調查、統計與研究分析。</dd></div>',
-                        '</div>',
-                        '<p style="font-size:16px;font-weight:700;color:#1c1c2e;margin-bottom:3px;">利用之期間、地區、對象及方式：</p>',
-                        '<div class="period-list">',
-                          '<div class="period-row"><span class="period-label">期間</span><span>自本同意書簽署日起至本計畫結束後五年內，或法定保存期限為止。</span></div>',
-                          '<div class="period-row"><span class="period-label">地區</span><span>中華民國（台灣）境內。</span></div>',
-                          '<div class="period-row"><span class="period-label">對象</span><span>本機構及依法有調查權之衛生主管機關。</span></div>',
-                          '<div class="period-row"><span class="period-label">方式</span><span>以符合醫療倫理及《個資法》安全維護措施。</span></div>',
-                        '</div>',
-                        '<div class="rights-box"><strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。您得隨時自由選擇是否提供個人資料，惟若不提供，本機構將可能無法為您提供本計畫之完整衛教服務。</div>',
-                      '</div>',
-                    '</div>',
-                  '</div>',
-                  '<div class="footer-section">',
-                    '<div class="footer-top"><div class="footer-addressee">',
-                      '<span class="footer-addressee-label">此致</span>',
-                      '<span class="footer-hospital-display">台灣基層糖尿病學會</span>',
-                    '</div></div>',
-                    '<div class="footer-grid">',
-                      '<div class="sig-block">',
-                        '<span class="sig-block-label">立同意書人（手寫簽名）：</span>',
-                        '<div class="sig-canvas-wrap">' + sigHTML + '</div>',
-                      '</div>',
-                      '<div class="fields-col">',
-                        '<div class="field-line"><span class="field-line-label">聯絡電話：</span><span class="field-line-val">' + v(phone) + '</span></div>',
-                        '<div class="field-line"><span class="field-line-label">院所病歷字號：</span><span class="field-line-val mono">' + v(recordId) + '</span></div>',
-                        '<div class="field-line"><span class="field-line-label">簽署日期：</span>',
-                          '<div class="date-row"><span>中華民國</span>',
-                            '<span class="date-val">' + dateYear + '</span><span>年</span>',
-                            '<span class="date-val">' + dateMonth + '</span><span>月</span>',
-                            '<span class="date-val">' + dateDay + '</span><span>日</span>',
-                          '</div>',
-                        '</div>',
-                      '</div>',
-                    '</div>',
-                  '</div>',
-                '</div>',
+              '<div class="a4-header-band"><div><div class="a4-header-title">第一步驟：同意書填寫</div><div class="a4-header-sub">說明：同意書可採紙本簽署或線上電子簽名方式，並請於計畫截止日前，將100名參與者同意書彙整為單一PDF檔案後，上傳至系統</div></div></div>',
+              '<div class="a4-body">',
+              '<div class="intro-card"><div class="field-row"><span class="label-text">本人</span><span class="field-val">' + v(patientName) + '</span><span class="label-text">（立同意書人）</span></div><div class="field-row"><span class="label-text">同意參與由</span><span class="field-fixed-org">台灣基層糖尿病學會</span><span class="label-text">（以下簡稱本機構）所執行之</span></div><p class="intro-desc">糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教活動。</p></div>',
+              '<div class="articles">',
+              '<div class="article"><h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3><div class="article-body"><p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教。</p><p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料：</p><ul class="data-list"><li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li><li><span><span class="data-term">特種健康個資：</span>既往疫苗接種紀錄與慢性病史。</span></li><li><span><span class="data-term">計畫執行紀錄：</span>糖友新冠疫苗衛教前問卷；糖友新冠疫苗衛教後問卷；施打新冠疫苗小黃卡。</span></li></ul></div></div>',
               '</div>',
-              '<script>window.onload=function(){setTimeout(function(){window.print();},600);}<\/script>',
-              '</body></html>'
+              '<div class="footer-section"><div class="footer-top"><div class="footer-addressee"><span class="footer-addressee-label">此致</span><span class="footer-hospital-display">台灣基層糖尿病學會</span></div></div>',
+              '<div class="footer-grid"><div class="sig-block"><span class="sig-block-label">立同意書人（手寫簽名）：</span><div class="sig-canvas-wrap">' + sigHTML + '</div></div>',
+              '<div class="fields-col"><div class="field-line"><span class="field-line-label">聯絡電話：</span><span class="field-val">' + v(phone) + '</span></div>',
+              '<div class="field-line"><span class="field-line-label">院所病歷字號：</span><span class="field-val">' + v(recordId) + '</span></div>',
+              '<div class="field-line"><span class="field-line-label">簽署日期：</span><div class="date-row"><span>中華民國</span><span class="date-input">' + v(dateYear) + '</span><span>年</span><span class="date-input">' + v(dateMonth) + '</span><span>月</span><span class="date-input">' + v(dateDay) + '</span><span>日</span></div></div></div></div>',
+              '</div>',
+              '</div>',
+              '</body>',
+              '</html>'
             ].join('');
 
-            // ── Blob 下載（不需彈出視窗）──
             var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-            var url  = URL.createObjectURL(blob);
-            var a    = document.createElement('a');
-            // 用簽署日期當檔名
-            var fname = '參與計畫同意書'
-              + (dateYear  ? '_民國' + dateYear + '年'  : '')
-              + (dateMonth ? dateMonth + '月'            : '')
-              + (dateDay   ? dateDay   + '日'            : '')
-              + '.html';
-            a.href     = url;
-            a.download = fname;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(function(){ URL.revokeObjectURL(url); }, 10000);
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '糖友疫苗衛教計畫-同意書_' + new Date().getTime() + '.html';
+            link.click();
+            URL.revokeObjectURL(link.href);
         }
 
-        /* ═══════════════════════════════════════
-           同意書：日期自動填入
-        ═══════════════════════════════════════ */
-        /* ════════════════════════════════════════════
-   2. Auto-fill ROC date
-   ════════════════════════════════════════════ */
-(function(){
-  var t = new Date();
-  document.getElementById('date-year').value  = t.getFullYear() - 1911;
-  document.getElementById('date-month').value = t.getMonth() + 1;
-  document.getElementById('date-day').value   = t.getDate();
-  // 日期填入後重新計算 A4 縮放
-  if(typeof scaleA4 === 'function') scaleA4();
-})();
+        // 手寫簽名 Modal 控制
+        const sigModal = document.getElementById('sig-modal');
+        const sigModalCanvas = document.getElementById('sig-modal-canvas');
+        const sigModalClose = document.getElementById('sig-modal-close');
+        const sigModalClear = document.getElementById('sig-modal-clear');
+        const sigModalConfirm = document.getElementById('sig-modal-confirm');
+        const sigOpenBtn = document.getElementById('sig-open-btn');
+        const sigOpenArea = document.getElementById('sig-open-area');
 
-        /* ═══════════════════════════════════════
-           手機手寫簽名 Modal 邏輯（完全重寫）
-        ═══════════════════════════════════════ */
-        (function(){
-          var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-          var sigOpenBtn    = document.getElementById('sig-open-btn');
-          var sigPreview    = document.getElementById('sig-preview-mini');
-          var sigModal      = document.getElementById('sig-modal');
-          var sigModalClose = document.getElementById('sig-modal-close');
-          var modalCanvas   = document.getElementById('sig-modal-canvas');
-          var modalWrap     = document.getElementById('sig-modal-canvas-wrap');
-          var modalClear    = document.getElementById('sig-modal-clear');
-          var modalConfirm  = document.getElementById('sig-modal-confirm');
-          var modalHint     = document.getElementById('sig-modal-hint');
-          var mainSigWrap   = document.querySelector('.sig-canvas-wrap');
+        let modalIsDrawing = false;
+        let modalHasSigned = false;
+        const modalCtx = sigModalCanvas.getContext('2d');
 
-          if (!sigOpenBtn || !sigModal || !modalCanvas) return;
+        function initModalCanvas() {
+            const wrap = sigModalCanvas.parentNode;
+            const rect = wrap.getBoundingClientRect();
+            sigModalCanvas.width = rect.width;
+            sigModalCanvas.height = rect.height;
+            modalCtx.strokeStyle = '#1d2088';
+            modalCtx.lineWidth = 3;
+            modalCtx.lineCap = 'round';
+            modalCtx.lineJoin = 'round';
+        }
 
-          // ── 無論桌機或手機，都顯示展開按鈕（在 A4 外，不受 overflow 裁切）──
-          var sigOpenArea = document.getElementById('sig-open-area');
-          if (sigOpenArea) sigOpenArea.style.display = 'flex';
-          sigOpenBtn.style.display = 'flex';
-
-          // 手機模式才隱藏小 canvas 區
-          if (isTouch) {
-            mainSigWrap.style.display = 'none';
-          }
-
-          var mCtx = modalCanvas.getContext('2d');
-          var mDrawing = false;
-          var mHasDrawn = false;  // 追蹤本次 modal 內是否有實際畫過
-
-          // ── 初始化 modal canvas 尺寸（讀容器實際尺寸）──
-          function initModalCanvas(){
-            var W = modalWrap.clientWidth  || modalWrap.offsetWidth  || 360;
-            var H = modalWrap.clientHeight || modalWrap.offsetHeight || 200;
-            if (H < 140) H = 140;
-            // 移除舊的 style height（讓 CSS flex 決定）
-            modalWrap.style.height = '';
-            modalCanvas.width  = W;
-            modalCanvas.height = H;
-            // 恢復畫筆設定
-            mCtx.strokeStyle = '#1d2088';
-            mCtx.lineWidth   = 3.5;
-            mCtx.lineCap     = 'round';
-            mCtx.lineJoin    = 'round';
-          }
-
-          // ── 座標轉換（含 CSS 縮放補正）──
-          function getModalCoord(e){
-            var rect = modalCanvas.getBoundingClientRect();
-            var scaleX = modalCanvas.width  / rect.width;
-            var scaleY = modalCanvas.height / rect.height;
-            var cx, cy;
-            if (e.touches && e.touches.length > 0) {
-              cx = e.touches[0].clientX;
-              cy = e.touches[0].clientY;
-            } else {
-              cx = e.clientX;
-              cy = e.clientY;
-            }
-            return { x: (cx - rect.left) * scaleX, y: (cy - rect.top) * scaleY };
-          }
-
-          function mStart(e){
-            mDrawing = true;
-            mHasDrawn = true;
-            modalHint.style.display = 'none';
-            var p = getModalCoord(e);
-            mCtx.beginPath();
-            mCtx.moveTo(p.x, p.y);
-            e.preventDefault();
-          }
-          function mMove(e){
-            if (!mDrawing) return;
-            var p = getModalCoord(e);
-            mCtx.lineTo(p.x, p.y);
-            mCtx.stroke();
-            e.preventDefault();
-          }
-          function mEnd(){ mDrawing = false; }
-
-          modalCanvas.addEventListener('mousedown',  mStart, {passive:false});
-          modalCanvas.addEventListener('mousemove',  mMove,  {passive:false});
-          modalCanvas.addEventListener('touchstart', mStart, {passive:false});
-          modalCanvas.addEventListener('touchmove',  mMove,  {passive:false});
-          window.addEventListener('mouseup',  mEnd);
-          window.addEventListener('touchend', mEnd);
-
-          // ── 清除 ──
-          modalClear.addEventListener('click', function(){
-            mCtx.clearRect(0, 0, modalCanvas.width, modalCanvas.height);
-            mHasDrawn = false;
-            modalHint.style.display = '';
-          });
-
-          // ── 開啟 modal（先移到 body 最外層，突破 stacking context）──
-          function openModal(){
-            // 確保 modal 是 body 的直接子元素，避免被 transform/overflow 裁切
-            if (sigModal.parentNode !== document.body) {
-              document.body.appendChild(sigModal);
-            }
-            sigModal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-            // 等 modal 顯示後再初始化（需等 display:flex 生效）
-            requestAnimationFrame(function(){
-              requestAnimationFrame(function(){
+        window.addEventListener('load', initModalCanvas);
+        window.addEventListener('resize', () => {
+            if (sigModal.classList.contains('open')) {
                 initModalCanvas();
-                mHasDrawn = false;
-                // 若已有舊簽名，還原到 modal
-                if (_signatureDataUrl) {
-                  var img = new Image();
-                  img.onload = function(){
-                    mCtx.drawImage(img, 0, 0, modalCanvas.width, modalCanvas.height);
-                    mHasDrawn = true;
-                    modalHint.style.display = 'none';
-                  };
-                  img.src = _signatureDataUrl;
-                } else {
-                  modalHint.style.display = '';
-                }
-              });
-            });
-          }
-
-          sigOpenBtn.addEventListener('click', openModal);
-
-          // ── 關閉（不儲存）──
-          function closeModal(){
-            sigModal.classList.remove('open');
-            document.body.style.overflow = '';
-          }
-          sigModalClose.addEventListener('click', closeModal);
-          sigModal.addEventListener('click', function(e){
-            if (e.target === sigModal) closeModal();
-          });
-
-          // ── 確認簽名 ──
-          modalConfirm.addEventListener('click', function(){
-            if (!mHasDrawn && !_signatureDataUrl) {
-              // 尚未畫任何東西
-              modalHint.style.display = '';
-              modalHint.textContent = '⚠ 請先手寫簽名';
-              modalHint.style.color = '#ef4444';
-              return;
             }
+        });
 
-            // 用 toBlob 確保瀏覽器完成 flush 後再取 dataURL
-            if (typeof modalCanvas.toBlob === 'function') {
-              modalCanvas.toBlob(function(blob){
-                var reader = new FileReader();
-                reader.onloadend = function(){
-                  _signatureDataUrl = reader.result;
-                  hasSigned = true;
-                  updatePreviewAndClose();
-                };
-                reader.readAsDataURL(blob);
-              }, 'image/png');
+        function getModalCoordinates(e) {
+            const rect = sigModalCanvas.getBoundingClientRect();
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
             } else {
-              // fallback
-              _signatureDataUrl = modalCanvas.toDataURL('image/png');
-              hasSigned = true;
-              updatePreviewAndClose();
+                clientX = e.clientX;
+                clientY = e.clientY;
             }
-          });
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
 
-          function updatePreviewAndClose(){
-            // ── 1. 縮圖預覽：每次都重新查詢以確保拿到最新元素 ──
-            var preview = document.getElementById('sig-preview-mini');
-            if (preview && _signatureDataUrl) {
-              preview.src = _signatureDataUrl;
-              preview.style.cssText = preview.style.cssText.replace('display:none','display:block');
-              preview.style.display = 'block';   // 確保覆蓋 inline display:none
+        function startModalDrawing(e) {
+            modalIsDrawing = true;
+            document.getElementById('sig-modal-hint').style.display = 'none';
+            const pos = getModalCoordinates(e);
+            modalCtx.beginPath();
+            modalCtx.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        }
+
+        function drawModal(e) {
+            if (!modalIsDrawing) return;
+            const pos = getModalCoordinates(e);
+            modalCtx.lineTo(pos.x, pos.y);
+            modalCtx.stroke();
+            modalHasSigned = true;
+            e.preventDefault();
+        }
+
+        function stopModalDrawing() {
+            modalIsDrawing = false;
+        }
+
+        sigModalCanvas.addEventListener('mousedown', startModalDrawing);
+        sigModalCanvas.addEventListener('mousemove', drawModal);
+        window.addEventListener('mouseup', stopModalDrawing);
+        sigModalCanvas.addEventListener('touchstart', startModalDrawing);
+        sigModalCanvas.addEventListener('touchmove', drawModal);
+        sigModalCanvas.addEventListener('touchend', stopModalDrawing);
+        window.addEventListener('touchend', stopModalDrawing);
+
+        function openSignatureModal() {
+            sigModal.classList.add('open');
+            initModalCanvas();
+            modalHasSigned = false;
+            document.getElementById('sig-modal-hint').style.display = 'block';
+        }
+
+        function closeSignatureModal() {
+            sigModal.classList.remove('open');
+        }
+
+        sigOpenBtn.addEventListener('click', openSignatureModal);
+        sigModalClose.addEventListener('click', closeSignatureModal);
+
+        sigModalClear.addEventListener('click', () => {
+            modalCtx.clearRect(0, 0, sigModalCanvas.width, sigModalCanvas.height);
+            modalHasSigned = false;
+            document.getElementById('sig-modal-hint').style.display = 'block';
+        });
+
+        sigModalConfirm.addEventListener('click', () => {
+            if (modalHasSigned) {
+                try {
+                    _signatureDataUrl = sigModalCanvas.toDataURL('image/png');
+                    hasSigned = true;
+                    const mainCanvas = signatureCanvas;
+                    if (mainCanvas) {
+                        mainCanvas.width = mainCanvas.offsetWidth;
+                        mainCanvas.height = mainCanvas.offsetHeight;
+                        ctx.strokeStyle = '#1d2088';
+                        ctx.lineWidth = 3;
+                        ctx.lineCap = 'round';
+                        ctx.lineJoin = 'round';
+                        const img = new Image();
+                        img.onload = () => {
+                            ctx.drawImage(img, 0, 0);
+                        };
+                        img.src = _signatureDataUrl;
+                    }
+                } catch(e) {}
             }
+            closeSignatureModal();
+        });
 
-            // ── 2. 確保 sig-open-area 仍然顯示 ──
-            var area = document.getElementById('sig-open-area');
-            if (area) area.style.display = 'flex';
-
-            // ── 3. 把簽名畫回 A4 內的小 canvas ──
-            if (signatureCanvas && _signatureDataUrl) {
-              // 若 canvas 被隱藏，先暫時顯示以取得尺寸
-              var wasHidden = (mainSigWrap && mainSigWrap.style.display === 'none');
-              if (wasHidden) {
-                mainSigWrap.style.visibility = 'hidden';
-                mainSigWrap.style.display = '';
-              }
-              if (!signatureCanvas.width || signatureCanvas.width === 0) {
-                var r = signatureCanvas.getBoundingClientRect();
-                signatureCanvas.width  = r.width  || 200;
-                signatureCanvas.height = r.height || 110;
-              }
-              var img2 = new Image();
-              img2.onload = function(){
-                ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
-                ctx.drawImage(img2, 0, 0, signatureCanvas.width, signatureCanvas.height);
-                if (wasHidden) {
-                  mainSigWrap.style.display    = 'none';
-                  mainSigWrap.style.visibility = '';
-                }
-              };
-              img2.src = _signatureDataUrl;
+        sigModal.addEventListener('click', (e) => {
+            if (e.target === sigModal) {
+                closeSignatureModal();
             }
-
-            // ── 4. 更新展開按鈕外觀 ──
-            sigOpenBtn.innerHTML =
-              '<span style="font-size:16px;">✓</span>&nbsp;已簽名&thinsp;—&thinsp;點此修改';
-            sigOpenBtn.style.borderColor  = '#6366f1';
-            sigOpenBtn.style.borderStyle  = 'solid';
-            sigOpenBtn.style.background   = '#eef2ff';
-            sigOpenBtn.style.color        = '#4338ca';
-
-            closeModal();
-          }
-        })();
-
-        /* ═══════════════════════════════════════
-           欄位橋接：A4 欄位 → flow 驗證欄位
-        ═══════════════════════════════════════ */
-        (function() {
-            function sync(srcId, dstId) {
-                var src = document.getElementById(srcId);
-                var dst = document.getElementById(dstId);
-                if (!src || !dst) return;
-                src.addEventListener('input', function() { dst.value = src.value; });
-            }
-            sync('patient-name-input', 'consent-name');
-            sync('phone-input', 'consent-phone');
-        })();
-
+        });
     </script>
-
-    <!-- 隱藏欄位：供 flow validateAllSteps() 讀取，由 A4 欄位橋接同步 -->
-    <input type="hidden" id="consent-name">
-    <input type="hidden" id="consent-phone">
 </body>
 </html>
