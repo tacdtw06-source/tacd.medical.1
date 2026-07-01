@@ -1213,7 +1213,7 @@
               '.field-fixed-org{font-size:12.5px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 6px;white-space:nowrap;}',
               '.intro-desc{font-size:11.5px;color:#4b5563;line-height:1.38;margin-top:3px;padding-top:3px;border-top:1px solid #c7d2fe;}',
               '.articles{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}',
-              '.article{padding-left:7px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
+              '.article{padding-left:7px;border-left:3px solid #1d2088;}',
               '.article-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:2px;}',
               '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;color:#fff;font-size:10px;font-weight:900;line-height:1;}',
               '.article-check.checked{background:linear-gradient(135deg,#3b48d4,#1d2088);border-color:#1d2088;}',
@@ -1329,11 +1329,13 @@
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
                 jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' },
-                // 分頁設定：優先依照 CSS break-inside:avoid 規則決定分頁點，
-                // 確保條款、表格、簽名區塊等不會被硬生生從中間切成兩頁
+                // 分頁設定：只在「小區塊」層級避免硬切（例如表格、列點、簽名區），
+                // 條款本身（.article）不強制避免跨頁，允許內容較長的條款
+                // 自然延續到下一頁，避免因為整條被硬性推到下一頁，
+                // 導致上一頁提早結束、留下大片空白
                 pagebreak: {
                     mode: ['css', 'legacy'],
-                    avoid: ['.article', '.info-grid', '.rights-box', '.footer-grid', '.intro-card', '.data-list li', '.period-row']
+                    avoid: ['.info-grid', '.rights-box', '.footer-grid', '.intro-card', '.data-list li', '.period-row', '.article-title']
                 }
             };
             html2pdf().set(opt).from(clone).save().then(function(){
