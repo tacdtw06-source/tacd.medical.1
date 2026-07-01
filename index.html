@@ -1054,66 +1054,61 @@
             // ── 直接複製網頁上實際顯示的同意書內容（#a4-page），
             //    確保下載/列印檔案與網頁內容 100% 一致，不再手動重複維護文字 ──
             var sourceA4 = document.getElementById('a4-page');
-            var bodyHTML = '';
-            if (sourceA4) {
-                var clone = sourceA4.cloneNode(true);
+            if (!sourceA4) {
+                showToast('找不到同意書內容，請重新整理頁面後再試');
+                return;
+            }
+            var clone = sourceA4.cloneNode(true);
 
-                // 將輸入框替換為純文字（clone 不會保留 JS 動態設定的 value）
-                function swapInputForText(selector, text, cls) {
-                    var el = clone.querySelector(selector);
-                    if (!el) return;
-                    var span = document.createElement('span');
-                    span.className = cls;
-                    span.textContent = v(text);
-                    el.parentNode.replaceChild(span, el);
-                }
-                swapInputForText('#patient-name-input', patientName, 'field-val');
-                swapInputForText('#phone-input',        phone,       'field-line-val');
-                swapInputForText('#record-id-input',    recordId,    'field-line-val mono');
+            // 將輸入框替換為純文字（clone 不會保留 JS 動態設定的 value）
+            function swapInputForText(selector, text, cls) {
+                var el = clone.querySelector(selector);
+                if (!el) return;
+                var span = document.createElement('span');
+                span.className = cls;
+                span.textContent = v(text);
+                el.parentNode.replaceChild(span, el);
+            }
+            swapInputForText('#patient-name-input', patientName, 'field-val');
+            swapInputForText('#phone-input',        phone,       'field-line-val');
+            swapInputForText('#record-id-input',    recordId,    'field-line-val mono');
 
-                // 簽署日期（readonly input）→ 純文字，保留原始數值
-                [['date-year', dateYear], ['date-month', dateMonth], ['date-day', dateDay]].forEach(function(pair){
-                    var el = clone.querySelector('#' + pair[0]);
-                    if (!el) return;
-                    var span = document.createElement('span');
-                    span.className = 'date-val';
-                    span.textContent = pair[1] || '';
-                    el.parentNode.replaceChild(span, el);
-                });
+            // 簽署日期（readonly input）→ 純文字，保留原始數值
+            [['date-year', dateYear], ['date-month', dateMonth], ['date-day', dateDay]].forEach(function(pair){
+                var el = clone.querySelector('#' + pair[0]);
+                if (!el) return;
+                var span = document.createElement('span');
+                span.className = 'date-val';
+                span.textContent = pair[1] || '';
+                el.parentNode.replaceChild(span, el);
+            });
 
-                // 頁首標題／說明：網頁上顯示的是精靈步驟標籤與操作說明（給填寫者看的操作提示），
-                // 並非正式文件內容，下載/列印的同意書改用正式文件標題，不顯示步驟與操作說明文字
-                var headerTitleEl = clone.querySelector('.a4-header-title');
-                if (headerTitleEl) headerTitleEl.textContent = '參與計畫同意書';
-                var headerSubEl = clone.querySelector('.a4-header-sub');
-                if (headerSubEl) headerSubEl.textContent = '糖尿病病友新冠疫苗衛教與施打促進計畫';
+            // 頁首標題／說明：網頁上顯示的是精靈步驟標籤與操作說明（給填寫者看的操作提示），
+            // 並非正式文件內容，下載/列印的同意書改用正式文件標題，不顯示步驟與操作說明文字
+            var headerTitleEl = clone.querySelector('.a4-header-title');
+            if (headerTitleEl) headerTitleEl.textContent = '參與計畫同意書';
+            var headerSubEl = clone.querySelector('.a4-header-sub');
+            if (headerSubEl) headerSubEl.textContent = '糖尿病病友新冠疫苗衛教與施打促進計畫';
 
-                // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
-                var sigWrap = clone.querySelector('.sig-canvas-wrap');
-                if (sigWrap) {
-                    sigWrap.innerHTML = sigHTML;
-                    // 手機版原本會將此區塊 display:none（改用彈出視窗簽名），
-                    // 下載/列印檔案中必須強制顯示，否則簽名會消失不見
-                    sigWrap.style.display = 'block';
-                }
-
-                bodyHTML = clone.outerHTML;
+            // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
+            var sigWrap = clone.querySelector('.sig-canvas-wrap');
+            if (sigWrap) {
+                sigWrap.innerHTML = sigHTML;
+                // 手機版原本會將此區塊 display:none（改用彈出視窗簽名），
+                // 下載/列印檔案中必須強制顯示，否則簽名會消失不見
+                sigWrap.style.display = 'block';
             }
 
-            var html = [
-              '<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><title>參與計畫同意書</title>',
-              '<style>',
-              '*{box-sizing:border-box;margin:0;padding:0;}',
-              'body{font-family:Arial,"Microsoft JhengHei","微軟正黑體",sans-serif;font-size:16px;background:#fff;display:flex;justify-content:center;padding:0;}',
-              '.a4-page{width:794px;height:1123px;background:#fff;padding:0 0 26px;display:flex;flex-direction:column;overflow:hidden;}',
-              '.a4-header-band{background:linear-gradient(135deg,#1d2088 0%,#2d34b8 60%,#3b48d4 100%);padding:18px 38px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:16px;}',
+            // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
+            var pdfCssRules = [
+              '.a4-page{width:794px;height:1123px;max-width:794px;background:#fff;padding:0 0 26px;display:flex;flex-direction:column;overflow:hidden;transform:none;border-radius:0;box-shadow:none;}',
+              '.a4-header-band{background:linear-gradient(135deg,#1d2088 0%,#2d34b8 60%,#3b48d4 100%);padding:18px 38px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:16px;flex-wrap:nowrap;}',
               '.a4-header-title{color:#fff;font-size:17px;font-weight:800;letter-spacing:.5px;line-height:1.35;}',
-              '.a4-header-sub{color:rgba(255,255,255,.7);font-size:12px;font-weight:500;margin-top:2px;}',
+              '.a4-header-sub{color:rgba(255,255,255,.7);font-size:12px;font-weight:500;margin-top:2px;line-height:1.4;}',
               '.a4-header-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 12px;text-align:center;color:#fff;font-size:12px;font-weight:700;line-height:1.45;white-space:nowrap;}',
               '.a4-body{padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:hidden;}',
               '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:7px;padding:9px 13px 8px;margin-bottom:9px;flex-shrink:0;}',
               '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 4px;margin-bottom:5px;line-height:1.5;}',
-              '.field-row:last-child{margin-bottom:0;}',
               '.label-text{font-size:16px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
               '.field-val{font-size:16px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 8px;min-width:150px;text-align:center;display:inline-block;}',
               '.field-fixed-org{font-size:16px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:2px 8px;white-space:nowrap;}',
@@ -1124,8 +1119,6 @@
               '.article-body{font-size:16px;color:#4b5563;line-height:1.65;}',
               '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:4px;}',
               '.data-list{list-style:none;padding:0;margin:3px 0 0;display:flex;flex-direction:column;gap:2px;}',
-              '.data-list li{display:flex;gap:5px;align-items:flex-start;}',
-              '.data-list li::before{content:"▸";color:#1d2088;font-size:13px;flex-shrink:0;margin-top:2px;}',
               '.data-term{font-weight:700;color:#1c1c2e;}',
               '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;background:#f8faff;border:1px solid #dde4f7;border-radius:7px;padding:7px 10px;margin:5px 0;}',
               '.info-grid-item dt{font-size:14px;font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
@@ -1135,28 +1128,21 @@
               '.period-row{display:flex;gap:6px;font-size:16px;}',
               '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:36px;}',
               '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:6px 10px;font-size:14px;color:#6b7280;line-height:1.6;margin-top:5px;}',
-              '.rights-box strong{color:#1c1c2e;}',
               '.footer-section{margin-top:auto;padding-top:8px;border-top:1px solid #dde4f7;flex-shrink:0;}',
               '.footer-top{display:flex;align-items:center;margin-bottom:8px;}',
               '.footer-addressee{display:flex;align-items:center;gap:6px;}',
               '.footer-addressee-label{font-size:14px;font-weight:700;color:#94a3b8;letter-spacing:1px;}',
               '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 8px;min-width:140px;display:inline-block;text-align:center;font-size:16px;}',
               '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:#f8faff;border:1px solid #dde4f7;border-radius:10px;padding:12px 14px;}',
-              '.sig-block{display:flex;flex-direction:column;gap:5px;}',
+              '.sig-block{display:flex;flex-direction:column;gap:5px;width:auto;}',
               '.sig-block-label{font-size:15px;font-weight:700;color:#4b5563;}',
               '.sig-canvas-wrap{position:relative;width:100%;height:110px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:8px;overflow:hidden;}',
               '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:10px;}',
               '.field-line{display:flex;align-items:center;gap:5px;}',
               '.field-line-label{font-size:15px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:88px;}',
               '.field-line-val{flex:1;border-bottom:1.5px solid #94a3b8;padding:4px 3px;color:#1c1c2e;font-size:16px;font-weight:600;}',
-              '.field-line-val.mono{font-family:"Courier New",Courier,monospace;}',
               '.date-row{display:flex;align-items:center;gap:2px;font-size:16px;color:#334155;font-weight:500;}',
-              '.date-val{text-align:center;border-bottom:1.5px solid #94a3b8;font-weight:700;color:#1d2088;font-size:16px;min-width:28px;padding:0 2px;display:inline-block;}',
-              '@page{size:A4 portrait;margin:0;}',
-              '@media print{body{display:block;}}',
-              '</style></head><body>',
-              bodyHTML,
-              '</body></html>'
+              '.date-val{text-align:center;border-bottom:1.5px solid #94a3b8;font-weight:700;color:#1d2088;font-size:16px;min-width:28px;padding:0 2px;display:inline-block;}'
             ].join('');
 
             // ── 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白 ──
@@ -1174,31 +1160,55 @@
               + (dateDay   ? dateDay   + '日'            : '')
               + '.pdf';
 
-            // ── 用隱藏 iframe 承載同意書內容，格式（字體/顏色/版面）與畫面完全一致，
-            //    且不受目前裝置（手機／平板）版面影響，確保 PDF 永遠維持標準 A4 格式 ──
-            var pdfIframe = document.createElement('iframe');
-            pdfIframe.style.cssText = 'position:fixed;left:-99999px;top:0;width:794px;height:1123px;border:0;visibility:hidden;';
-            document.body.appendChild(pdfIframe);
-
-            pdfIframe.onload = function() {
-                var pdfTarget = pdfIframe.contentDocument.querySelector('.a4-page')
-                              || pdfIframe.contentDocument.body;
-                var opt = {
-                    margin: 0,
-                    filename: fname,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-                    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
-                };
-                html2pdf().set(opt).from(pdfTarget).save().then(function(){
-                    document.body.removeChild(pdfIframe);
-                }).catch(function(err){
-                    console.error('PDF 產生失敗', err);
-                    document.body.removeChild(pdfIframe);
-                    showToast('PDF 產生失敗，請稍後再試一次');
+            // ── 將 CSS 規則限定在 #pdf-render-root 範圍內，並自動加上 !important，
+            //    確保無論在手機／平板哪種螢幕寬度下，PDF 都固定維持標準 A4 桌面格式，
+            //    不受頁面本身的手機版面（RWD）樣式影響 ──
+            function scopeCssImportant(cssText, scopeSelector) {
+                return cssText.replace(/([^{}]+)\{([^{}]*)\}/g, function(match, selectors, body) {
+                    var scopedSelectors = selectors.split(',').map(function(s){
+                        return scopeSelector + ' ' + s.trim();
+                    }).join(', ');
+                    var importantBody = body.split(';').map(function(decl){
+                        decl = decl.trim();
+                        if (!decl) return '';
+                        if (decl.indexOf('!important') === -1) decl += ' !important';
+                        return decl;
+                    }).filter(Boolean).join('; ');
+                    return scopedSelectors + '{' + importantBody + ';}';
                 });
+            }
+
+            // 注入一次性的 PDF 專用樣式（若已存在則重複使用，不重複插入）
+            var pdfStyleTag = document.getElementById('pdf-render-style');
+            if (!pdfStyleTag) {
+                pdfStyleTag = document.createElement('style');
+                pdfStyleTag.id = 'pdf-render-style';
+                pdfStyleTag.textContent = scopeCssImportant(pdfCssRules, '#pdf-render-root');
+                document.head.appendChild(pdfStyleTag);
+            }
+
+            // ── 在「同一份文件」內建立離屏容器來放置同意書內容（不使用 iframe，
+            //    避免 html2canvas 無法正確讀取跨文件內容而產生空白 PDF）──
+            var pdfRoot = document.createElement('div');
+            pdfRoot.id = 'pdf-render-root';
+            pdfRoot.style.cssText = 'position:fixed;left:-99999px;top:0;width:794px;background:#fff;';
+            pdfRoot.appendChild(clone);
+            document.body.appendChild(pdfRoot);
+
+            var opt = {
+                margin: 0,
+                filename: fname,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
             };
-            pdfIframe.srcdoc = html;
+            html2pdf().set(opt).from(clone).save().then(function(){
+                document.body.removeChild(pdfRoot);
+            }).catch(function(err){
+                console.error('PDF 產生失敗', err);
+                if (pdfRoot.parentNode) document.body.removeChild(pdfRoot);
+                showToast('PDF 產生失敗，請稍後再試一次');
+            });
         }
 
         /* ═══════════════════════════════════════
