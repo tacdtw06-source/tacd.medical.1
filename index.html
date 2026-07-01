@@ -1172,6 +1172,18 @@
                 sigWrap.style.display = 'block';
             }
 
+            // 第一、二、三條標題前的打勾 icon：改用真正的 <img> DOM 元素插入，
+            // 不使用 CSS ::before 偽元素＋background-image（html2canvas 對這種
+            // 生成內容的支援不穩定，常常整個不畫出來），確保 PDF 一定能正確顯示 icon
+            var ARTICLE_ICON_B64 = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjQ4ZDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWQyMDg4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI1NiIgZmlsbD0idXJsKCNnKSIvPgogIDxwYXRoIGQ9Ik0xMzggMjYyIEwyMjggMzUyIEwzOTAgMTY4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNTYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K';
+            clone.querySelectorAll('.article-title').forEach(function(titleEl){
+                var icon = document.createElement('img');
+                icon.src = 'data:image/svg+xml;base64,' + ARTICLE_ICON_B64;
+                icon.setAttribute('alt', '');
+                icon.style.cssText = 'width:14px;height:14px;flex-shrink:0;display:inline-block;vertical-align:middle;margin-right:6px;';
+                titleEl.insertBefore(icon, titleEl.firstChild);
+            });
+
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
               '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 20px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;}',
@@ -1179,47 +1191,46 @@
               '.a4-header-title{color:#1d2088;font-size:14px;font-weight:800;letter-spacing:.4px;line-height:1.2;}',
               '.a4-header-sub{color:#6b7280;font-size:9px;font-weight:500;margin-top:1px;line-height:1.2;}',
               '.a4-header-badge{background:#eef1ff;border:1px solid #c7d2fe;border-radius:5px;padding:2px 8px;text-align:center;color:#1d2088;font-size:9px;font-weight:700;line-height:1.25;white-space:nowrap;}',
-              '.a4-body{padding:0 36px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
-              '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:6px 12px 5px;margin-bottom:6px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:3px;line-height:1.35;}',
+              '.a4-body{padding:0 30px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
+              '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:5px 11px 4px;margin-bottom:5px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
+              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:3px;line-height:1.32;}',
               '.field-row:last-child{margin-bottom:0;}',
-              '.label-text{font-size:13px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
-              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:13px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 7px;min-width:120px;text-align:center;}',
-              '.field-fixed-org{font-size:13px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 7px;white-space:nowrap;}',
-              '.intro-desc{font-size:12px;color:#4b5563;line-height:1.42;margin-top:4px;padding-top:4px;border-top:1px solid #c7d2fe;}',
-              '.articles{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}',
-              '.article{padding-left:8px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
-              '.article-title{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:3px;}',
-              '.article-title::before{content:"";display:inline-flex;flex-shrink:0;width:16px;height:16px;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjQ4ZDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWQyMDg4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI1NiIgZmlsbD0idXJsKCNnKSIvPgogIDxwYXRoIGQ9Ik0xMzggMjYyIEwyMjggMzUyIEwzOTAgMTY4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNTYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K");background-size:contain;background-repeat:no-repeat;}',
-              '.article-body{font-size:12px;color:#4b5563;line-height:1.42;}',
+              '.label-text{font-size:12.5px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
+              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:12.5px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 6px;min-width:110px;text-align:center;}',
+              '.field-fixed-org{font-size:12.5px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 6px;white-space:nowrap;}',
+              '.intro-desc{font-size:11.5px;color:#4b5563;line-height:1.38;margin-top:3px;padding-top:3px;border-top:1px solid #c7d2fe;}',
+              '.articles{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}',
+              '.article{padding-left:7px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
+              '.article-title{display:flex;align-items:center;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:2px;}',
+              '.article-body{font-size:11.5px;color:#4b5563;line-height:1.38;}',
               '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
               '.data-list{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:1px;}',
               '.data-list li{break-inside:avoid;page-break-inside:avoid;}',
               '.data-term{font-weight:700;color:#1c1c2e;}',
-              '.info-grid{display:grid;grid-template-columns:1fr;gap:5px;background:#f8faff;border:1px solid #dde4f7;border-radius:6px;padding:5px 8px;margin:3px 0;break-inside:avoid;page-break-inside:avoid;}',
-              '.info-grid-item dt{font-size:11.5px;font-weight:700;color:#1c1c2e;margin-bottom:1px;}',
-              '.info-grid-item dd{font-size:11.5px;color:#6b7280;line-height:1.35;margin:0;}',
+              '.info-grid{display:grid;grid-template-columns:1fr;gap:4px;background:#f8faff;border:1px solid #dde4f7;border-radius:6px;padding:4px 7px;margin:2px 0;break-inside:avoid;page-break-inside:avoid;}',
+              '.info-grid-item dt{font-size:11px;font-weight:700;color:#1c1c2e;margin-bottom:1px;}',
+              '.info-grid-item dd{font-size:11px;color:#6b7280;line-height:1.3;margin:0;}',
               '.hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 4px;min-width:90px;display:inline-block;text-align:center;}',
-              '.period-list{display:flex;flex-direction:column;gap:2px;margin:3px 0;}',
-              '.period-row{display:flex;gap:5px;font-size:12px;break-inside:avoid;page-break-inside:avoid;}',
+              '.period-list{display:flex;flex-direction:column;gap:1px;margin:2px 0;}',
+              '.period-row{display:flex;gap:5px;font-size:11.5px;break-inside:avoid;page-break-inside:avoid;}',
               '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:30px;}',
-              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:4px 8px;font-size:11.5px;color:#6b7280;line-height:1.4;margin-top:3px;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-section{margin-top:auto;padding-top:5px;border-top:1px solid #dde4f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-top{display:flex;align-items:center;margin-bottom:5px;}',
+              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:4px 7px;font-size:11px;color:#6b7280;line-height:1.35;margin-top:2px;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-section{margin-top:auto;padding-top:4px;border-top:1px solid #dde4f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-top{display:flex;align-items:center;margin-bottom:4px;}',
               '.footer-addressee{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}',
-              '.footer-addressee-label{font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.35;}',
-              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 7px;min-width:120px;display:inline-block;text-align:center;font-size:13px;}',
-              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;background:#f8faff;border:1px solid #dde4f7;border-radius:9px;padding:9px 11px;break-inside:avoid;page-break-inside:avoid;}',
-              '.sig-block{display:flex;flex-direction:column;gap:4px;width:auto;}',
-              '.sig-block-label{font-size:12px;font-weight:700;color:#4b5563;}',
-              '.sig-canvas-wrap{position:relative;width:100%;height:95px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:7px;overflow:hidden;}',
-              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:7px;}',
+              '.footer-addressee-label{font-size:10.5px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.3;}',
+              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 7px;min-width:120px;display:inline-block;text-align:center;font-size:12.5px;}',
+              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f8faff;border:1px solid #dde4f7;border-radius:9px;padding:8px 10px;break-inside:avoid;page-break-inside:avoid;}',
+              '.sig-block{display:flex;flex-direction:column;gap:3px;width:auto;}',
+              '.sig-block-label{font-size:11.5px;font-weight:700;color:#4b5563;}',
+              '.sig-canvas-wrap{position:relative;width:100%;height:88px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:7px;overflow:hidden;}',
+              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:6px;}',
               '.field-line{display:flex;align-items:center;gap:5px;}',
-              '.field-line-label{font-size:12px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:74px;}',
-              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:3px 3px;color:#1c1c2e;font-size:13px;font-weight:600;outline:none;}',
+              '.field-line-label{font-size:11.5px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:70px;}',
+              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:2px 3px;color:#1c1c2e;font-size:12.5px;font-weight:600;outline:none;}',
               '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
-              '.date-row{display:flex;align-items:center;gap:2px;font-size:13px;color:#334155;font-weight:500;}',
-              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:13px;}'
+              '.date-row{display:flex;align-items:center;gap:2px;font-size:12.5px;color:#334155;font-weight:500;}',
+              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:12.5px;}'
             ].join('');
 
             // ── 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白 ──
