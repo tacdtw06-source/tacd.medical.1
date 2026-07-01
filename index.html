@@ -1077,27 +1077,25 @@
             }
             var clone = sourceA4.cloneNode(true);
 
-            // 將輸入框替換為純文字（clone 不會保留 JS 動態設定的 value）
-            function swapInputForText(selector, text, cls) {
+            // 將輸入框「填入數值」而非替換元素，確保欄位排版（寬度／對齊／換行）
+            // 與網頁上實際顯示的一模一樣，不會因為換成別的元素而跑版
+            function fillInputValue(selector, text) {
                 var el = clone.querySelector(selector);
                 if (!el) return;
-                var span = document.createElement('span');
-                span.className = cls;
-                span.textContent = v(text);
-                el.parentNode.replaceChild(span, el);
+                el.value = v(text);
+                el.setAttribute('value', v(text));
+                el.readOnly = true;
             }
-            swapInputForText('#patient-name-input', patientName, 'field-val');
-            swapInputForText('#phone-input',        phone,       'field-line-val');
-            swapInputForText('#record-id-input',    recordId,    'field-line-val mono');
+            fillInputValue('#patient-name-input', patientName);
+            fillInputValue('#phone-input',        phone);
+            fillInputValue('#record-id-input',    recordId);
 
-            // 簽署日期（readonly input）→ 純文字，保留原始數值
+            // 簽署日期（readonly input）→ 直接填入數值，同樣保留原始 input 元素
             [['date-year', dateYear], ['date-month', dateMonth], ['date-day', dateDay]].forEach(function(pair){
                 var el = clone.querySelector('#' + pair[0]);
                 if (!el) return;
-                var span = document.createElement('span');
-                span.className = 'date-val';
-                span.textContent = pair[1] || '';
-                el.parentNode.replaceChild(span, el);
+                el.value = pair[1] || '';
+                el.setAttribute('value', pair[1] || '');
             });
 
             // 頁首標題／說明：網頁上顯示的是精靈步驟標籤與操作說明（給填寫者看的操作提示），
@@ -1106,6 +1104,14 @@
             if (headerTitleEl) headerTitleEl.textContent = '參與計畫同意書';
             var headerSubEl = clone.querySelector('.a4-header-sub');
             if (headerSubEl) headerSubEl.textContent = '糖尿病病友新冠疫苗衛教與施打促進計畫';
+            // 右上角加入機構名稱徽章（僅列印/下載檔案顯示，網頁上不需要重複顯示機構名稱）
+            var headerBand = clone.querySelector('.a4-header-band');
+            if (headerBand) {
+                var badge = document.createElement('div');
+                badge.className = 'a4-header-badge';
+                badge.innerHTML = '台灣基層糖尿病學會<br>Taiwan Association of Clinical Diabetes';
+                headerBand.appendChild(badge);
+            }
 
             // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
             var sigWrap = clone.querySelector('.sig-canvas-wrap');
@@ -1126,8 +1132,9 @@
               '.a4-body{padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:hidden;}',
               '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:7px;padding:9px 13px 8px;margin-bottom:9px;flex-shrink:0;}',
               '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 4px;margin-bottom:5px;line-height:1.5;}',
+              '.field-row:last-child{margin-bottom:0;}',
               '.label-text{font-size:16px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
-              '.field-val{font-size:16px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 8px;min-width:150px;text-align:center;display:inline-block;}',
+              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:16px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 8px;min-width:150px;text-align:center;}',
               '.field-fixed-org{font-size:16px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:2px 8px;white-space:nowrap;}',
               '.intro-desc{font-size:16px;color:#4b5563;line-height:1.65;margin-top:7px;padding-top:7px;border-top:1px solid #c7d2fe;}',
               '.articles{display:flex;flex-direction:column;gap:7px;flex-shrink:0;}',
@@ -1157,9 +1164,10 @@
               '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:10px;}',
               '.field-line{display:flex;align-items:center;gap:5px;}',
               '.field-line-label{font-size:15px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:88px;}',
-              '.field-line-val{flex:1;border-bottom:1.5px solid #94a3b8;padding:4px 3px;color:#1c1c2e;font-size:16px;font-weight:600;}',
+              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:4px 3px;color:#1c1c2e;font-size:16px;font-weight:600;outline:none;}',
+              '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
               '.date-row{display:flex;align-items:center;gap:2px;font-size:16px;color:#334155;font-weight:500;}',
-              '.date-val{text-align:center;border-bottom:1.5px solid #94a3b8;font-weight:700;color:#1d2088;font-size:16px;min-width:28px;padding:0 2px;display:inline-block;}'
+              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:16px;}'
             ].join('');
 
             // ── 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白 ──
