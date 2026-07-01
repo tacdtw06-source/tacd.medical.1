@@ -238,7 +238,7 @@
   display:flex;align-items:center;gap:10px;
   font-size:16px;font-weight:700;color:#1d2088;letter-spacing:.3px;margin-bottom:6px;
 }
-/* 圓角方框打勾元件：供使用者點擊確認已閱讀該條款 */
+/* 圓角方框打勾元件：供使用者點擊確認已閱讀該條款（打勾符號為純文字，非圖片） */
 .article-check{
   display:inline-flex;align-items:center;justify-content:center;
   flex-shrink:0;
@@ -246,6 +246,8 @@
   border:2px solid #c7d2fe;
   border-radius:7px;
   background:#fff;
+  color:#fff;
+  font-size:14px;font-weight:900;line-height:1;
   cursor:pointer;
   transition:background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
@@ -255,16 +257,6 @@
   background:linear-gradient(135deg,#3b48d4,#1d2088);
   border-color:#1d2088;
   box-shadow:0 2px 5px rgba(29,32,136,.35);
-}
-.article-check-mark{
-  width:12px;height:12px;
-  opacity:0;
-  transform:scale(.5);
-  transition:opacity .15s ease, transform .15s ease;
-}
-.article-check.checked .article-check-mark{
-  opacity:1;
-  transform:scale(1);
 }
 .article-body{font-size:16px;color:#4b5563;line-height:1.65;}
 .article-lead{font-weight:700;color:#1c1c2e;margin-bottom:4px;}
@@ -678,7 +670,7 @@
   <div class="articles">
 
     <div class="article">
-      <h3 class="article-title"><span class="article-check" data-article="1" role="checkbox" aria-checked="false" tabindex="0"><img class="article-check-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQgMTIuNSBMOS41IDE4IEwyMCA2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="></span>第一條：計畫內容與個人資料蒐集之範疇</h3>
+      <h3 class="article-title"><span class="article-check" data-article="1" role="checkbox" aria-checked="false" tabindex="0"></span>第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
         <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>
         <p>為執行本計畫之資格確認、衛教介入、前後問卷調查、接種安排、追蹤管理、經費核銷、成效分析及統計研究，本會及參與院所將蒐集、處理及利用下列資料：</p>
@@ -693,7 +685,7 @@
     </div>
 
     <div class="article">
-      <h3 class="article-title"><span class="article-check" data-article="2" role="checkbox" aria-checked="false" tabindex="0"><img class="article-check-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQgMTIuNSBMOS41IDE4IEwyMCA2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="></span>第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
+      <h3 class="article-title"><span class="article-check" data-article="2" role="checkbox" aria-checked="false" tabindex="0"></span>第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
       <div class="article-body">
         <p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本會向您明確告知下列事項：</p>
         <div class="info-grid">
@@ -721,7 +713,7 @@
     </div>
 
     <div class="article">
-       <h3 class="article-title"><span class="article-check" data-article="3" role="checkbox" aria-checked="false" tabindex="0"><img class="article-check-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQgMTIuNSBMOS41IDE4IEwyMCA2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="></span>第三條：自願參與及退出計畫</h3>
+       <h3 class="article-title"><span class="article-check" data-article="3" role="checkbox" aria-checked="false" tabindex="0"></span>第三條：自願參與及退出計畫</h3>
        <div class="article-body">
         <p class="article-lead">本人參與本計畫完全出於自由意願，得拒絕參與或於計畫進行期間隨時退出，且不影響本人原有之就醫、醫療照護、疫苗接種資格或其他權益。</p>
       </div>
@@ -1178,7 +1170,23 @@
                 badge.className = 'a4-header-badge';
                 badge.innerHTML = '台灣基層糖尿病學會<br>Taiwan Association of Clinical Diabetes';
                 headerBand.appendChild(badge);
+
+                // 直接設定 inline style 強制移除深藍色漸層橫幅，改為極簡純文字頁首。
+                // 不透過外部/動態注入的 CSS 規則（避免 html2canvas 對動態樣式表的
+                // 套用時機不穩定），inline style 是最高優先權、最保險的作法。
+                headerBand.style.cssText = 'background:#ffffff;background-image:none;border:none;padding:0 30px;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:nowrap;';
             }
+            if (headerTitleEl) headerTitleEl.style.cssText = 'color:#1d2088;font-size:13px;font-weight:800;letter-spacing:.3px;line-height:1.15;';
+            if (headerSubEl) headerSubEl.style.cssText = 'color:#8b93a5;font-size:8.5px;font-weight:500;margin-top:1px;line-height:1.15;';
+            var headerBadgeEl = clone.querySelector('.a4-header-badge');
+            if (headerBadgeEl) headerBadgeEl.style.cssText = 'background:#f3f5fc;border:1px solid #e2e6f5;border-radius:5px;padding:2px 7px;text-align:center;color:#1d2088;font-size:8.5px;font-weight:700;line-height:1.2;white-space:nowrap;';
+
+            // 條款打勾方框：同樣改用 inline style 強制設定樣式，確保與勾選狀態
+            // （checked／未 checked）對應的外觀一定正確顯示在 PDF 中
+            clone.querySelectorAll('.article-check').forEach(function(box){
+                var isChecked = box.classList.contains('checked');
+                box.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid ' + (isChecked ? '#1d2088' : '#c7d2fe') + ';border-radius:5px;background:' + (isChecked ? 'linear-gradient(135deg,#3b48d4,#1d2088)' : '#ffffff') + ';color:#ffffff;font-size:10px;font-weight:900;line-height:1;';
+            });
 
             // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
             var sigWrap = clone.querySelector('.sig-canvas-wrap');
@@ -1211,10 +1219,8 @@
               '.articles{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}',
               '.article{padding-left:7px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
               '.article-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:2px;}',
-              '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;}',
+              '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;color:#fff;font-size:10px;font-weight:900;line-height:1;}',
               '.article-check.checked{background:linear-gradient(135deg,#3b48d4,#1d2088);border-color:#1d2088;}',
-              '.article-check-mark{width:9px;height:9px;opacity:0;}',
-              '.article-check.checked .article-check-mark{opacity:1;}',
               '.article-body{font-size:11.5px;color:#4b5563;line-height:1.38;}',
               '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
               '.data-list{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:1px;}',
@@ -1303,14 +1309,15 @@
                 });
             }
 
-            // 注入一次性的 PDF 專用樣式（若已存在則重複使用，不重複插入）
+            // 注入 PDF 專用樣式：每次下載都重新產生內容（不重複使用舊的 style tag），
+            // 避免同一頁面多次下載時，殘留舊版樣式內容而沒有真正更新
             var pdfStyleTag = document.getElementById('pdf-render-style');
             if (!pdfStyleTag) {
                 pdfStyleTag = document.createElement('style');
                 pdfStyleTag.id = 'pdf-render-style';
-                pdfStyleTag.textContent = scopeCssImportant(pdfCssRules, '#pdf-render-root');
                 document.head.appendChild(pdfStyleTag);
             }
+            pdfStyleTag.textContent = scopeCssImportant(pdfCssRules, '#pdf-render-root');
 
             // ── 在「同一份文件」內建立離屏容器來放置同意書內容（不使用 iframe，
             //    避免 html2canvas 無法正確讀取跨文件內容而產生空白 PDF）──
@@ -1581,6 +1588,7 @@
                 function toggle() {
                     var isChecked = box.classList.toggle('checked');
                     box.setAttribute('aria-checked', isChecked ? 'true' : 'false');
+                    box.textContent = isChecked ? '\u2713' : '';
                 }
                 box.addEventListener('click', toggle);
                 box.addEventListener('keydown', function(e) {
