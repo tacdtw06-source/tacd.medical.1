@@ -1091,6 +1091,13 @@
                     el.parentNode.replaceChild(span, el);
                 });
 
+                // 頁首標題／說明：網頁上顯示的是精靈步驟標籤與操作說明（給填寫者看的操作提示），
+                // 並非正式文件內容，下載/列印的同意書改用正式文件標題，不顯示步驟與操作說明文字
+                var headerTitleEl = clone.querySelector('.a4-header-title');
+                if (headerTitleEl) headerTitleEl.textContent = '參與計畫同意書';
+                var headerSubEl = clone.querySelector('.a4-header-sub');
+                if (headerSubEl) headerSubEl.textContent = '糖尿病病友新冠疫苗衛教與施打促進計畫';
+
                 // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
                 var sigWrap = clone.querySelector('.sig-canvas-wrap');
                 if (sigWrap) {
