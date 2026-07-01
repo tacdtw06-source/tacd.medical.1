@@ -32,15 +32,32 @@
                 extend: {
                     colors: {
                         primary: '#1d2088',    // 官方深藍主色
-                        secondary: '#e8e9f2',  // 淡藍灰背景色
+                        secondary: '#f4f5f7',  // 中性淺灰背景（原為偏藍灰，改為更克制的中性色）
+                        ink: '#1c1c26',        // 主要文字色（近黑，取代純黑更柔和）
+                        muted: '#6b7280',      // 次要文字色
+                        hairline: '#e8e8ec',   // 極細邊框色
                     }
                 }
             }
         }
     </script>
     <style>
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            color: #1c1c26;
+            letter-spacing: -0.006em;
+        }
+        h1, h2, h3, h4 { letter-spacing: -0.015em; }
+        ::selection { background: rgba(29,32,136,.14); }
+        /* 統一、內斂的 focus 樣式（取代瀏覽器預設的粗藍框）*/
+        a:focus-visible, button:focus-visible, input:focus-visible {
+            outline: 2px solid rgba(29,32,136,.45);
+            outline-offset: 2px;
         }
         .step-transition {
             transition: all 0.4s ease-in-out;
@@ -533,32 +550,32 @@
 
     <main class="max-w-4xl mx-auto px-2 sm:px-4 py-4 sm:py-8 flex-grow w-full">
         <!-- 進度條與頁面跳轉切換器 -->
-        <div class="mb-8 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
+        <div class="mb-8 bg-white p-5 sm:p-6 rounded-2xl border border-hairline shadow-[0_1px_3px_rgba(16,24,40,0.04)]">
             <div class="relative flex justify-between items-center max-w-2xl mx-auto">
-                <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 bg-slate-100 z-0"></div>
-                <div id="progress-bar" class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-primary z-0 transition-all duration-500" style="width: 0%"></div>
+                <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-hairline z-0"></div>
+                <div id="progress-bar" class="absolute left-0 top-1/2 -translate-y-1/2 h-px bg-primary z-0 transition-all duration-500" style="width: 0%"></div>
 
                 <!-- 點選 1、2、3、4 自動跳轉 -->
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="1">
-                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-md transition-all duration-300 group-hover:scale-105">1</div>
-                    <span class="text-xs sm:text-base font-semibold mt-2 text-slate-800">同意書填寫</span>
+                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold ring-4 ring-primary/10 shadow-[0_2px_8px_rgba(29,32,136,0.3)] transition-all duration-300 group-hover:scale-105">1</div>
+                    <span class="text-xs sm:text-base font-extrabold mt-2 text-ink">同意書填寫</span>
                 </div>
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="2">
-                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">2</div>
-                    <span class="text-xs sm:text-base font-medium mt-2 text-slate-400">衛教前問卷</span>
+                    <div class="w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">2</div>
+                    <span class="text-xs sm:text-base font-medium mt-2 text-muted">衛教前問卷</span>
                 </div>
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="3">
-                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">3</div>
-                    <span class="text-xs sm:text-base font-medium mt-2 text-slate-400">衛教後問卷</span>
+                    <div class="w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">3</div>
+                    <span class="text-xs sm:text-base font-medium mt-2 text-muted">衛教後問卷</span>
                 </div>
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="4">
-                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">4</div>
-                    <span class="text-xs sm:text-base font-medium mt-2 text-slate-400">上傳小黃卡</span>
+                    <div class="w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">4</div>
+                    <span class="text-xs sm:text-base font-medium mt-2 text-muted">上傳小黃卡</span>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-4 sm:p-10 min-h-[450px] flex flex-col justify-between relative">
+        <div class="bg-white rounded-3xl border border-hairline shadow-[0_4px_24px_rgba(16,24,40,0.06)] p-6 sm:p-10 min-h-[450px] flex flex-col justify-between relative">
             
             <!-- 錯誤/提示訊息浮窗 -->
             <div id="toast-message" class="absolute top-4 left-1/2 -translate-x-1/2 bg-rose-500 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg transform -translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
@@ -711,10 +728,10 @@
 
 
             <!-- Step 1 navigation -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 pt-5 border-t border-slate-100 gap-3">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 pt-5 border-t border-hairline gap-3">
                 <!-- 下載按鈕（置中）-->
               <div class="flex justify-center w-full">
-                <button type="button" onclick="downloadConsent()" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all">
+                <button type="button" onclick="downloadConsent()" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-xl shadow-[0_2px_8px_rgba(29,32,136,0.28)] hover:shadow-[0_6px_18px_rgba(29,32,136,0.32)] hover:-translate-y-0.5 active:scale-95 transition-all">
                   <img src="data:image/png;base64,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" alt="" class="h-4 w-4">
                   下載同意書
                 </button>
@@ -722,8 +739,8 @@
             </div>
 
             <!-- 同意書上傳平台 -->
-            <div class="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-6 p-6">
-                <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-3 shadow-sm">
+            <div class="flex flex-col items-center justify-center py-10 bg-secondary/60 rounded-2xl border border-dashed border-[#d8d9e0] mt-6 p-6">
+                <div class="w-14 h-14 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
@@ -731,7 +748,7 @@
                 <p class="text-slate-600 font-semibold text-base mb-1 text-center">同意書上傳平台</p>
                 <p class="text-slate-400 text-sm mb-5 text-center">請將100名參與者之同意書彙整為單一PDF檔案後，於計畫截止日前上傳至本系統</p>
                 <a href="https://www.surveycake.com/s/7z2gA" target="_blank"
-                   class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                   class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-[0_2px_8px_rgba(29,32,136,0.28)] hover:shadow-[0_6px_18px_rgba(29,32,136,0.32)] hover:-translate-y-0.5 transition-all flex items-center gap-2">
                     <img src="data:image/png;base64,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" alt="" class="h-5 w-5">
                     <span>開啟 同意書上傳平台</span>
                 </a>
@@ -741,18 +758,18 @@
             <!-- STEP 2: 衛教前問卷 -->
             <div id="step-content-2" class="step-transition hidden">
                 <div class="mb-6">
-                    <span class="px-3 py-1 text-base font-semibold text-primary bg-secondary rounded-full">第二步驟：衛教前問卷</span>
-                    <h2 class="text-2xl font-bold text-slate-800 mt-2">填寫衛教前問卷</h2>
-                    <p class="text-slate-500 text-sm mt-1">請點擊下方按鈕完成衛教『前』問卷。</p>
+                    <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第二步驟：衛教前問卷</span>
+                    <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">填寫衛教前問卷</h2>
+                    <p class="text-muted text-sm mt-1.5">請點擊下方按鈕完成衛教『前』問卷。</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200 my-6 p-6">
-                    <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-sm">
+                <div class="flex flex-col items-center justify-center py-10 bg-secondary/60 rounded-2xl border border-dashed border-[#d8d9e0] my-6 p-6">
+                    <div class="w-14 h-14 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
                     </div>
-                    <a href="https://www.surveycake.com/s/ewlLa" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                    <a href="https://www.surveycake.com/s/ewlLa" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-[0_2px_8px_rgba(29,32,136,0.28)] hover:shadow-[0_6px_18px_rgba(29,32,136,0.32)] hover:-translate-y-0.5 transition-all flex items-center gap-2">
                         <span>開啟 衛教前問卷</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -765,18 +782,18 @@
             <!-- STEP 3: 衛教後問卷 -->
             <div id="step-content-3" class="step-transition hidden">
                 <div class="mb-6">
-                    <span class="px-3 py-1 text-base font-semibold text-primary bg-secondary rounded-full">第三步驟：衛教後問卷</span>
-                    <h2 class="text-2xl font-bold text-slate-800 mt-2">填寫衛教後問卷</h2>
-                    <p class="text-slate-500 text-sm mt-1">請點擊下方按鈕完成衛教『後』問卷。</p>
+                    <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第三步驟：衛教後問卷</span>
+                    <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">填寫衛教後問卷</h2>
+                    <p class="text-muted text-sm mt-1.5">請點擊下方按鈕完成衛教『後』問卷。</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-dashed border-slate-200 my-6 p-6">
-                    <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-sm">
+                <div class="flex flex-col items-center justify-center py-10 bg-secondary/60 rounded-2xl border border-dashed border-[#d8d9e0] my-6 p-6">
+                    <div class="w-14 h-14 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                     </div>
-                    <a href="https://www.surveycake.com/s/yXzPR" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                    <a href="https://www.surveycake.com/s/yXzPR" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-[0_2px_8px_rgba(29,32,136,0.28)] hover:shadow-[0_6px_18px_rgba(29,32,136,0.32)] hover:-translate-y-0.5 transition-all flex items-center gap-2">
                         <span>開啟 衛教後問卷</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -790,18 +807,18 @@
             <div id="step-content-4" class="step-transition hidden">
                 <div>
                     <div class="mb-6">
-                        <span class="px-3 py-1 text-base font-semibold text-primary bg-secondary rounded-full">第四步驟：上傳小黃卡或收據</span>
-                        <h2 class="text-2xl font-bold text-slate-800 mt-2">上傳新冠疫苗接種紀錄(小黃卡)或施打疫苗收據</h2>
-                        <p class="text-slate-500 text-sm mt-1">小黃卡或施打疫苗收據必須清楚載明施打者姓名。</p>
+                        <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第四步驟：上傳小黃卡或收據</span>
+                        <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">上傳新冠疫苗接種紀錄(小黃卡)或施打疫苗收據</h2>
+                        <p class="text-muted text-sm mt-1.5">小黃卡或施打疫苗收據必須清楚載明施打者姓名。</p>
                     </div>
 
-                    <div class="flex flex-col items-center justify-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200 my-4 p-6">
-                        <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center mb-4 shadow-sm">
+                    <div class="flex flex-col items-center justify-center py-8 bg-secondary/60 rounded-2xl border border-dashed border-[#d8d9e0] my-4 p-6">
+                        <div class="w-14 h-14 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                             </svg>
                         </div>
-                        <a href="https://www.surveycake.com/s/42yay" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+                        <a href="https://www.surveycake.com/s/42yay" target="_blank" class="px-8 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-[0_2px_8px_rgba(29,32,136,0.28)] hover:shadow-[0_6px_18px_rgba(29,32,136,0.32)] hover:-translate-y-0.5 transition-all flex items-center gap-2">
                             <img src="data:image/png;base64,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" alt="" class="h-5 w-5">
                             <span>開啟 小黃卡或收據上傳平台</span>
                         </a>
@@ -814,7 +831,7 @@
             </div>
 
             <!-- 底部進度指示器（僅作標示用途） -->
-            <div class="border-t border-slate-100 pt-6 mt-8 flex justify-center items-center bg-white">
+            <div class="border-t border-hairline pt-6 mt-8 flex justify-center items-center bg-white">
                 <span id="wizard-step-indicator" class="text-xs text-slate-400 font-medium"> 
             </div>
         </div>
@@ -1001,17 +1018,17 @@
                 const label = node.querySelector('span');
 
                 if (stepIdx < currentStep) {
-                    circle.className = "w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-md transition-all duration-300";
+                    circle.className = "w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-[0_2px_6px_rgba(29,32,136,0.25)] transition-all duration-300";
                     circle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
-                    label.className = "text-xs font-semibold mt-2 text-primary";
+                    label.className = "text-xs sm:text-base font-semibold mt-2 text-primary";
                 } else if (stepIdx === currentStep) {
-                    circle.className = "w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold ring-4 ring-secondary transition-all duration-300";
+                    circle.className = "w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold ring-4 ring-primary/10 shadow-[0_2px_8px_rgba(29,32,136,0.3)] transition-all duration-300";
                     circle.innerText = stepIdx;
-                    label.className = "text-xs font-extrabold mt-2 text-slate-800";
+                    label.className = "text-xs sm:text-base font-extrabold mt-2 text-ink";
                 } else {
-                    circle.className = "w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold transition-all duration-300";
+                    circle.className = "w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300";
                     circle.innerText = stepIdx;
-                    label.className = "text-xs font-medium mt-2 text-slate-400";
+                    label.className = "text-xs sm:text-base font-medium mt-2 text-muted";
                 }
             });
 
