@@ -682,7 +682,7 @@
         <div class="info-grid">
           <div class="info-grid-item">
             <dt>蒐集、處理及利用個人資料之單位：</dt>
-            <dd><span id="display-hospital-text" class="hospital-display">台灣基層糖尿病學會、參與本計畫之醫療院所，以及受前述單位委託辦理系統建置、資料管理或統計分析之受託單位</span></dd>
+            <dd id="display-hospital-text">．台灣基層糖尿病學會<br>．參與本計畫之醫療院所<br>．受前述單位委託辦理系統建置、資料管理或統計分析之受託單位</dd>
           </div>
           <div class="info-grid-item">
             <dt>蒐集之特定目的</dt>
@@ -1174,51 +1174,52 @@
 
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
-              '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 22px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;}',
-              '.a4-header-band{background:linear-gradient(135deg,#1d2088 0%,#2d34b8 60%,#3b48d4 100%);padding:14px 36px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:12px;flex-wrap:nowrap;}',
-              '.a4-header-title{color:#fff;font-size:16px;font-weight:800;letter-spacing:.5px;line-height:1.3;}',
-              '.a4-header-sub{color:rgba(255,255,255,.7);font-size:11px;font-weight:500;margin-top:2px;line-height:1.35;}',
-              '.a4-header-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:7px;padding:5px 11px;text-align:center;color:#fff;font-size:11px;font-weight:700;line-height:1.4;white-space:nowrap;}',
+              '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 20px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;}',
+              '.a4-header-band{background:linear-gradient(135deg,#1d2088 0%,#2d34b8 60%,#3b48d4 100%);padding:9px 34px 7px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:8px;flex-wrap:nowrap;}',
+              '.a4-header-title{color:#fff;font-size:14px;font-weight:800;letter-spacing:.4px;line-height:1.2;}',
+              '.a4-header-sub{color:rgba(255,255,255,.7);font-size:9.5px;font-weight:500;margin-top:1px;line-height:1.25;}',
+              '.a4-header-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:3px 9px;text-align:center;color:#fff;font-size:9.5px;font-weight:700;line-height:1.3;white-space:nowrap;}',
               '.a4-body{padding:0 36px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
-              '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:7px 12px 6px;margin-bottom:7px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:4px;line-height:1.4;}',
+              '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:6px 12px 5px;margin-bottom:6px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
+              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:3px;line-height:1.35;}',
               '.field-row:last-child{margin-bottom:0;}',
-              '.label-text{font-size:14px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
-              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:14px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 7px;min-width:130px;text-align:center;}',
-              '.field-fixed-org{font-size:14px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 7px;white-space:nowrap;}',
-              '.intro-desc{font-size:13px;color:#4b5563;line-height:1.5;margin-top:5px;padding-top:5px;border-top:1px solid #c7d2fe;}',
-              '.articles{display:flex;flex-direction:column;gap:5px;flex-shrink:0;}',
+              '.label-text{font-size:13px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
+              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:13px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 7px;min-width:120px;text-align:center;}',
+              '.field-fixed-org{font-size:13px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 7px;white-space:nowrap;}',
+              '.intro-desc{font-size:12px;color:#4b5563;line-height:1.42;margin-top:4px;padding-top:4px;border-top:1px solid #c7d2fe;}',
+              '.articles{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}',
               '.article{padding-left:8px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
-              '.article-title{font-size:14px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:3px;}',
-              '.article-body{font-size:13px;color:#4b5563;line-height:1.5;}',
-              '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:3px;}',
+              '.article-title{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:3px;}',
+              '.article-title::before{content:"";display:inline-flex;flex-shrink:0;width:16px;height:16px;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjQ4ZDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWQyMDg4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI1NiIgZmlsbD0idXJsKCNnKSIvPgogIDxwYXRoIGQ9Ik0xMzggMjYyIEwyMjggMzUyIEwzOTAgMTY4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNTYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K");background-size:contain;background-repeat:no-repeat;}',
+              '.article-body{font-size:12px;color:#4b5563;line-height:1.42;}',
+              '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
               '.data-list{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:1px;}',
               '.data-list li{break-inside:avoid;page-break-inside:avoid;}',
               '.data-term{font-weight:700;color:#1c1c2e;}',
-              '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 9px;background:#f8faff;border:1px solid #dde4f7;border-radius:6px;padding:6px 9px;margin:4px 0;break-inside:avoid;page-break-inside:avoid;}',
-              '.info-grid-item dt{font-size:12.5px;font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
-              '.info-grid-item dd{font-size:12.5px;color:#6b7280;line-height:1.45;margin:0;}',
+              '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;background:#f8faff;border:1px solid #dde4f7;border-radius:6px;padding:5px 8px;margin:3px 0;break-inside:avoid;page-break-inside:avoid;}',
+              '.info-grid-item dt{font-size:11.5px;font-weight:700;color:#1c1c2e;margin-bottom:1px;}',
+              '.info-grid-item dd{font-size:11.5px;color:#6b7280;line-height:1.35;margin:0;}',
               '.hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 4px;min-width:90px;display:inline-block;text-align:center;}',
               '.period-list{display:flex;flex-direction:column;gap:2px;margin:3px 0;}',
-              '.period-row{display:flex;gap:5px;font-size:13px;break-inside:avoid;page-break-inside:avoid;}',
-              '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:32px;}',
-              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:5px 9px;font-size:12.5px;color:#6b7280;line-height:1.5;margin-top:4px;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-section{margin-top:auto;padding-top:6px;border-top:1px solid #dde4f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-top{display:flex;align-items:center;margin-bottom:6px;}',
+              '.period-row{display:flex;gap:5px;font-size:12px;break-inside:avoid;page-break-inside:avoid;}',
+              '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:30px;}',
+              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:4px 8px;font-size:11.5px;color:#6b7280;line-height:1.4;margin-top:3px;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-section{margin-top:auto;padding-top:5px;border-top:1px solid #dde4f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-top{display:flex;align-items:center;margin-bottom:5px;}',
               '.footer-addressee{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}',
-              '.footer-addressee-label{font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.4;}',
-              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 7px;min-width:120px;display:inline-block;text-align:center;font-size:14px;}',
-              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#f8faff;border:1px solid #dde4f7;border-radius:9px;padding:10px 12px;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-addressee-label{font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.35;}',
+              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 7px;min-width:120px;display:inline-block;text-align:center;font-size:13px;}',
+              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;background:#f8faff;border:1px solid #dde4f7;border-radius:9px;padding:9px 11px;break-inside:avoid;page-break-inside:avoid;}',
               '.sig-block{display:flex;flex-direction:column;gap:4px;width:auto;}',
-              '.sig-block-label{font-size:13px;font-weight:700;color:#4b5563;}',
-              '.sig-canvas-wrap{position:relative;width:100%;height:100px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:7px;overflow:hidden;}',
-              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:8px;}',
+              '.sig-block-label{font-size:12px;font-weight:700;color:#4b5563;}',
+              '.sig-canvas-wrap{position:relative;width:100%;height:95px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:7px;overflow:hidden;}',
+              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:7px;}',
               '.field-line{display:flex;align-items:center;gap:5px;}',
-              '.field-line-label{font-size:13px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:78px;}',
-              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:3px 3px;color:#1c1c2e;font-size:14px;font-weight:600;outline:none;}',
+              '.field-line-label{font-size:12px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:74px;}',
+              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:3px 3px;color:#1c1c2e;font-size:13px;font-weight:600;outline:none;}',
               '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
-              '.date-row{display:flex;align-items:center;gap:2px;font-size:14px;color:#334155;font-weight:500;}',
-              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:14px;}'
+              '.date-row{display:flex;align-items:center;gap:2px;font-size:13px;color:#334155;font-weight:500;}',
+              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:13px;}'
             ].join('');
 
             // ── 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白 ──
@@ -1240,11 +1241,35 @@
             //    確保無論在手機／平板哪種螢幕寬度下，PDF 都固定維持標準 A4 桌面格式，
             //    不受頁面本身的手機版面（RWD）樣式影響 ──
             function scopeCssImportant(cssText, scopeSelector) {
+                // 引號感知的分號分割：避免像 url("data:image/svg+xml;base64,...")
+                // 這種值內部本來就含有分號的內容，被誤判為 CSS 宣告分隔符而截斷
+                function splitDeclarations(body) {
+                    var result = [];
+                    var current = '';
+                    var quoteChar = null;
+                    for (var i = 0; i < body.length; i++) {
+                        var ch = body[i];
+                        if (quoteChar) {
+                            current += ch;
+                            if (ch === quoteChar) quoteChar = null;
+                        } else if (ch === '"' || ch === "'") {
+                            quoteChar = ch;
+                            current += ch;
+                        } else if (ch === ';') {
+                            result.push(current);
+                            current = '';
+                        } else {
+                            current += ch;
+                        }
+                    }
+                    if (current.trim()) result.push(current);
+                    return result;
+                }
                 return cssText.replace(/([^{}]+)\{([^{}]*)\}/g, function(match, selectors, body) {
                     var scopedSelectors = selectors.split(',').map(function(s){
                         return scopeSelector + ' ' + s.trim();
                     }).join(', ');
-                    var importantBody = body.split(';').map(function(decl){
+                    var importantBody = splitDeclarations(body).map(function(decl){
                         decl = decl.trim();
                         if (!decl) return '';
                         if (decl.indexOf('!important') === -1) decl += ' !important';
