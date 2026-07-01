@@ -119,15 +119,18 @@
 /* ── Print button — fixed bottom-right ── */
 /* btn-download 已移除 */
 
-/* ── A4 page shell ── */
+/* ── A4 page shell ──
+   說明：改用 min-height 而非固定 height，並取消 overflow:hidden，
+   讓內容較長時可以自然往下撐開、完整顯示，不會被裁切隱藏。
+   內容較短時仍維持至少一頁 A4 的視覺高度。 */
 .a4-page{
-  width:794px;height:1123px;
+  width:794px;min-height:1123px;
   background:#fff;
   box-shadow:0 8px 32px rgba(29,32,136,.18);
   border-radius:8px;
   padding:0 0 26px;
   display:flex;flex-direction:column;
-  overflow:hidden;position:relative;
+  overflow:visible;position:relative;
 }
 
 /* ── A4 top colour band ── */
@@ -149,7 +152,7 @@
   color:#fff;font-size:12px;font-weight:700;line-height:1.45;white-space:nowrap;
 }
 .a4-body{
-  padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:hidden;
+  padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:visible;
 }
 
 /* ── A4 響應式容器 ── */
@@ -473,7 +476,9 @@
     transform:none !important;
     margin:0 !important;
     width:794px !important;
-    height:1123px !important;
+    min-height:1123px !important;
+    height:auto !important;
+    overflow:visible !important;
   }
   .sig-clear-btn{display:none !important;}
 }
@@ -514,13 +519,16 @@
             }
             // 取得外層容器可用寬度（扣掉 padding）
             var available = scaler.getBoundingClientRect().width || scaler.offsetWidth;
-            var A4W = 794, A4H = 1123;
+            var A4W = 794;
+            // 動態量測目前內容「實際高度」（scrollHeight 不受 transform:scale 影響），
+            // 避免內文變長（例如條款內容增加）時，仍套用寫死的 1123px 導致下方內容被裁切看不到
+            var actualH = page.scrollHeight || page.offsetHeight || 1123;
             if (available < A4W) {
                 var scale = available / A4W;
                 page.style.cssText += ';transform:scale(' + scale + ');transform-origin:top left;';
                 page.style.setProperty('--a4-scale', scale);
-                // 縮放後實際佔用高度
-                scaler.style.height = Math.ceil(A4H * scale) + 'px';
+                // 縮放後實際佔用高度（以實際內容高度計算）
+                scaler.style.height = Math.ceil(actualH * scale) + 'px';
                 scaler.style.overflow = 'hidden';
             } else {
                 page.style.transform = '';
@@ -612,10 +620,11 @@
     <div class="field-row">
       <span class="label-text">同意參與由</span>
       <span class="field-fixed-org" id="hospital-select">台灣基層糖尿病學會</span>
-      <span class="label-text">（以下簡稱本機構）所執行之</span>
+      <span class="label-text">（以下簡稱本會）所執行之</span>
     </div>
     <p class="intro-desc">
-      糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教。
+      糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本會依據以下條款蒐集、處理及利用本人之個人資料，以及提供相關衛教、問卷及追蹤服務。
+簽署本同意書僅表示本人同意參與本計畫，不代表本人已同意接種疫苗。是否接種疫苗，仍由本人於接受醫療人員評估及說明後自行決定；實際接種時，應依醫療院所之醫療程序另行辦理。
     </p>
   </div>
 
@@ -626,11 +635,13 @@
       <h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
         <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>
-        <p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料（包含《個資法》第 6 條之特種／敏感個資）：</p>
+        <p>為執行本計畫之資格確認、衛教介入、前後問卷調查、接種安排、追蹤管理、經費核銷、成效分析及統計研究，本會及參與院所將蒐集、處理及利用下列資料：</p>
         <ul class="data-list">
-          <li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li>
-          <li><span><span class="data-term">特種健康個資：</span>既往疫苗接種紀錄與慢性病史。</span></li>
-          <li><span><span class="data-term">計畫執行紀錄：</span>糖友新冠疫苗衛教前問卷；糖友新冠疫苗衛教後問卷；施打新冠疫苗小黃卡。</span></li>
+          <li><span><span class="data-term">基本識別及聯絡資料：</span>姓名、出生年月日、院所病歷號、聯絡電話及聯絡地址。</span></li>
+          <li><span><span class="data-term">教育及背景資料：</span>教育程度。</span></li>
+	  <li><span><span class="data-term">健康及醫療資料：</span>糖尿病病史、共病情形、疫苗接種紀錄、過敏史及其他與接種評估相關之健康資訊。</span></li>
+          <li><span><span class="data-term">計畫執行紀錄：</span>衛教前後問卷、疫苗認知、接種意願、未接種原因、聯繫及追蹤紀錄。</span></li>
+	  <li><span><span class="data-term">接種證明資料：</span>疫苗接種紀錄卡、接種證明及接種相關收據。</span></li>
         </ul>
       </div>
     </div>
@@ -638,11 +649,11 @@
     <div class="article">
       <h3 class="article-title">第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
       <div class="article-body">
-        <p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本機構向您明確告知下列事項：</p>
+        <p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本會向您明確告知下列事項：</p>
         <div class="info-grid">
           <div class="info-grid-item">
-            <dt>蒐集機關名稱</dt>
-            <dd><span id="display-hospital-text" class="hospital-display">台灣基層糖尿病學會</span></dd>
+            <dt>蒐集、處理及利用個人資料之單位：</dt>
+            <dd><span id="display-hospital-text" class="hospital-display">台灣基層糖尿病學會、參與本計畫之醫療院所，以及受前述單位委託辦理系統建置、資料管理或統計分析之受託單位</span></dd>
           </div>
           <div class="info-grid-item">
             <dt>蒐集之特定目的</dt>
@@ -651,14 +662,22 @@
         </div>
         <p style="font-size:16px;font-weight:700;color:#1c1c2e;margin-bottom:3px;">利用之期間、地區、對象及方式：</p>
         <div class="period-list">
-          <div class="period-row"><span class="period-label">期間</span><span>自本同意書簽署日起至本計畫結束後五年內，或法定保存期限為止。</span></div>
+          <div class="period-row"><span class="period-label">期間</span><span> 自本同意書簽署日起至本計畫結束後五年止；如相關法令另有較長保存期限者，從其規定。保存期限屆滿後，將刪除、銷毀或進行不可回復之去識別化處理。</span></div>
           <div class="period-row"><span class="period-label">地區</span><span>中華民國（台灣）境內。</span></div>
-          <div class="period-row"><span class="period-label">對象</span><span>本機構及依法有調查權之衛生主管機關。</span></div>
-          <div class="period-row"><span class="period-label">方式</span><span>以符合醫療倫理及《個資法》安全維護措施。</span></div>
+          <div class="period-row"><span class="period-label">對象</span><span>台灣基層糖尿病學會、參與本計畫之醫療院所、本會依法或依契約委託之資訊系統、行政作業及資料分析單位，以及依法具有調查或監督權限之主管機關。</span></div>
+          <div class="period-row"><span class="period-label">方式</span><span>以紙本、電子文件、資訊系統、電話、簡訊、通訊軟體或其他自動化及非自動化方式蒐集、處理及利用，並採取符合醫療倫理及《個人資料保護法》之安全維護措施
+本計畫合作或補助單位僅得取得無法識別特定個人之彙整統計資料，不提供姓名、電話、病歷號、新冠疫苗接種紀錄卡/接種證明或其他可識別個人之資料。</span></div>
         </div>
         <div class="rights-box">
-          <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。您得隨時自由選擇是否提供個人資料，惟若不提供，本機構將可能無法為您提供本計畫之完整衛教服務。
+          <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本會申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。您得隨時自由選擇是否提供個人資料，惟若不提供，本機構將可能無法為您提供本計畫之完整衛教服務。
         </div>
+      </div>
+    </div>
+
+    <div class="article">
+       <h3 class="article-title">第三條：自願參與及退出計畫</h3>
+       <div class="article-body">
+        <p class="article-lead">本人參與本計畫完全出於自由意願，得拒絕參與或於計畫進行期間隨時退出，且不影響本人原有之就醫、醫療照護、疫苗接種資格或其他權益。</p>
       </div>
     </div>
 
@@ -668,6 +687,7 @@
   <div class="footer-section">
     <div class="footer-top">
       <div class="footer-addressee">
+	<span class="footer-addressee-label">本人如撤回同意，撤回前已依法完成之資料蒐集、處理及利用，不因撤回而失其效力；已完成去識別化且無法再識別本人之統計資料，可能無法個別刪除。</span>
         <span class="footer-addressee-label">此致</span>
         <span id="display-hospital-text-3" class="footer-hospital-display">台灣基層糖尿病學會</span>
       </div>
@@ -828,11 +848,12 @@
                         <h4 class="text-lg font-bold text-emerald-800 mb-1">🎉 恭喜您完成所有步驟！</h4>
                         <p class="text-sm text-emerald-600">您的同意書資料、衛教問卷與小黃卡紀錄已成功鏈結登錄，非常感謝您的參與。</p>
                     </div>
+                </div>
             </div>
 
             <!-- 底部進度指示器（僅作標示用途） -->
             <div class="border-t border-hairline pt-6 mt-8 flex justify-center items-center bg-white">
-                <span id="wizard-step-indicator" class="text-xs text-slate-400 font-medium"> 
+                <span id="wizard-step-indicator" class="text-xs text-slate-400 font-medium"></span>
             </div>
         </div>
     </main>
@@ -1124,12 +1145,12 @@
 
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
-              '.a4-page{width:794px;height:1123px;max-width:794px;background:#fff;padding:0 0 26px;display:flex;flex-direction:column;overflow:hidden;transform:none;border-radius:0;box-shadow:none;}',
+              '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 26px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;}',
               '.a4-header-band{background:linear-gradient(135deg,#1d2088 0%,#2d34b8 60%,#3b48d4 100%);padding:18px 38px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:16px;flex-wrap:nowrap;}',
               '.a4-header-title{color:#fff;font-size:17px;font-weight:800;letter-spacing:.5px;line-height:1.35;}',
               '.a4-header-sub{color:rgba(255,255,255,.7);font-size:12px;font-weight:500;margin-top:2px;line-height:1.4;}',
               '.a4-header-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 12px;text-align:center;color:#fff;font-size:12px;font-weight:700;line-height:1.45;white-space:nowrap;}',
-              '.a4-body{padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:hidden;}',
+              '.a4-body{padding:0 38px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
               '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:7px;padding:9px 13px 8px;margin-bottom:9px;flex-shrink:0;}',
               '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 4px;margin-bottom:5px;line-height:1.5;}',
               '.field-row:last-child{margin-bottom:0;}',
