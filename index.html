@@ -1054,6 +1054,48 @@
             // ── 空白填充（避免底線消失）──
             function v(val) { return val || '　　　　　　'; }
 
+            // ── 直接複製網頁上實際顯示的同意書內容（#a4-page），
+            //    確保下載/列印檔案與網頁內容 100% 一致，不再手動重複維護文字 ──
+            var sourceA4 = document.getElementById('a4-page');
+            var bodyHTML = '';
+            if (sourceA4) {
+                var clone = sourceA4.cloneNode(true);
+
+                // 將輸入框替換為純文字（clone 不會保留 JS 動態設定的 value）
+                function swapInputForText(selector, text, cls) {
+                    var el = clone.querySelector(selector);
+                    if (!el) return;
+                    var span = document.createElement('span');
+                    span.className = cls;
+                    span.textContent = v(text);
+                    el.parentNode.replaceChild(span, el);
+                }
+                swapInputForText('#patient-name-input', patientName, 'field-val');
+                swapInputForText('#phone-input',        phone,       'field-line-val');
+                swapInputForText('#record-id-input',    recordId,    'field-line-val mono');
+
+                // 簽署日期（readonly input）→ 純文字，保留原始數值
+                [['date-year', dateYear], ['date-month', dateMonth], ['date-day', dateDay]].forEach(function(pair){
+                    var el = clone.querySelector('#' + pair[0]);
+                    if (!el) return;
+                    var span = document.createElement('span');
+                    span.className = 'date-val';
+                    span.textContent = pair[1] || '';
+                    el.parentNode.replaceChild(span, el);
+                });
+
+                // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
+                var sigWrap = clone.querySelector('.sig-canvas-wrap');
+                if (sigWrap) {
+                    sigWrap.innerHTML = sigHTML;
+                    // 手機版原本會將此區塊 display:none（改用彈出視窗簽名），
+                    // 下載/列印檔案中必須強制顯示，否則簽名會消失不見
+                    sigWrap.style.display = 'block';
+                }
+
+                bodyHTML = clone.outerHTML;
+            }
+
             var html = [
               '<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><title>參與計畫同意書</title>',
               '<style>',
@@ -1109,83 +1151,7 @@
               '@page{size:A4 portrait;margin:0;}',
               '@media print{body{display:block;}}',
               '</style></head><body>',
-              '<div class="a4-page">',
-                '<div class="a4-header-band">',
-                  '<div><div class="a4-header-title">參計畫同意書</div>',
-                  '<div class="a4-header-sub">糖尿病病友新冠疫苗衛教與施打促進計畫</div></div>',
-                  '<div class="a4-header-badge">台灣基層糖尿病學會<br>Taiwan Association of Clinical Daibetes</div>',
-                '</div>',
-                '<div class="a4-body">',
-                  '<div class="intro-card">',
-                    '<div class="field-row">',
-                      '<span class="label-text">本人</span>',
-                      '<span class="field-val">' + v(patientName) + '</span>',
-                      '<span class="label-text">（立同意書人）</span>',
-                    '</div>',
-                    '<div class="field-row">',
-                      '<span class="label-text">同意參與由</span>',
-                      '<span class="field-fixed-org">台灣基層糖尿病學會</span>',
-                      '<span class="label-text">（以下簡稱本機構）所執行之</span>',
-                    '</div>',
-                    '<p class="intro-desc">糖尿病病友新冠疫苗衛教與施打促進計畫（以下簡稱本計畫），並同意本機構依據以下條款蒐集、處理、利用本人之個人資料，以及進行相關衛教。</p>',
-                  '</div>',
-                  '<div class="articles">',
-                    '<div class="article">',
-                      '<h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>',
-                      '<div class="article-body">',
-                        '<p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>',
-                        '<p>為執行本計畫之評估、衛教與統計分析，本人同意本機構蒐集、處理及利用下列個人資料（包含《個資法》第 6 條之特種／敏感個資）：</p>',
-                        '<ul class="data-list">',
-                          '<li><span><span class="data-term">基本識別資料：</span>姓名、出生年月日、院所病歷號、聯絡電話、聯絡地址。</span></li>',
-                          '<li><span><span class="data-term">特種健康個資：</span>既往疫苗接種紀錄與過敏史。</span></li>',
-                          '<li><span><span class="data-term">計畫執行紀錄：</span>衛教評估表單；施打新冠疫苗小黃卡。</span></li>',
-                        '</ul>',
-                      '</div>',
-                    '</div>',
-                    '<div class="article">',
-                      '<h3 class="article-title">第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>',
-                      '<div class="article-body">',
-                        '<p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本機構向您明確告知下列事項：</p>',
-                        '<div class="info-grid">',
-                          '<div class="info-grid-item"><dt>蒐集機關名稱</dt><dd><span class="hospital-display">台灣基層糖尿病學會</span></dd></div>',
-                          '<div class="info-grid-item"><dt>蒐集之特定目的</dt><dd>(063) 醫事、衛生傳播及衛教。<br>(064) 醫療、照護及衛生行政事務。<br>(157) 調查、統計與研究分析。</dd></div>',
-                        '</div>',
-                        '<p style="font-size:16px;font-weight:700;color:#1c1c2e;margin-bottom:3px;">利用之期間、地區、對象及方式：</p>',
-                        '<div class="period-list">',
-                          '<div class="period-row"><span class="period-label">期間</span><span>自本同意書簽署日起至本計畫結束後五年內，或法定保存期限為止。</span></div>',
-                          '<div class="period-row"><span class="period-label">地區</span><span>中華民國（台灣）境內。</span></div>',
-                          '<div class="period-row"><span class="period-label">對象</span><span>本機構及依法有調查權之衛生主管機關。</span></div>',
-                          '<div class="period-row"><span class="period-label">方式</span><span>以符合醫療倫理及《個資法》安全維護措施。</span></div>',
-                        '</div>',
-                        '<div class="rights-box"><strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本機構申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。您得隨時自由選擇是否提供個人資料，惟若不提供，本機構將可能無法為您提供本計畫之完整衛教服務。</div>',
-                      '</div>',
-                    '</div>',
-                  '</div>',
-                  '<div class="footer-section">',
-                    '<div class="footer-top"><div class="footer-addressee">',
-                      '<span class="footer-addressee-label">此致</span>',
-                      '<span class="footer-hospital-display">台灣基層糖尿病學會</span>',
-                    '</div></div>',
-                    '<div class="footer-grid">',
-                      '<div class="sig-block">',
-                        '<span class="sig-block-label">立同意書人（手寫簽名）：</span>',
-                        '<div class="sig-canvas-wrap">' + sigHTML + '</div>',
-                      '</div>',
-                      '<div class="fields-col">',
-                        '<div class="field-line"><span class="field-line-label">聯絡電話：</span><span class="field-line-val">' + v(phone) + '</span></div>',
-                        '<div class="field-line"><span class="field-line-label">院所病歷字號：</span><span class="field-line-val mono">' + v(recordId) + '</span></div>',
-                        '<div class="field-line"><span class="field-line-label">簽署日期：</span>',
-                          '<div class="date-row"><span>中華民國</span>',
-                            '<span class="date-val">' + dateYear + '</span><span>年</span>',
-                            '<span class="date-val">' + dateMonth + '</span><span>月</span>',
-                            '<span class="date-val">' + dateDay + '</span><span>日</span>',
-                          '</div>',
-                        '</div>',
-                      '</div>',
-                    '</div>',
-                  '</div>',
-                '</div>',
-              '</div>',
+              bodyHTML,
               '<script>window.onload=function(){setTimeout(function(){window.print();},600);}<\/script>',
               '</body></html>'
             ].join('');
@@ -1194,8 +1160,16 @@
             var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
             var url  = URL.createObjectURL(blob);
             var a    = document.createElement('a');
-            // 用簽署日期當檔名
+            // 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白
+            function safeName(s) {
+                return (s || '').replace(/[\\\/:*?"<>|]/g, '').trim();
+            }
+            var safePatientName = safeName(patientName);
+            var safeRecordId    = safeName(recordId);
+            // 檔名：參與計畫同意書_姓名_病歷字號_簽署日期
             var fname = '參與計畫同意書'
+              + (safePatientName ? '_' + safePatientName : '')
+              + (safeRecordId    ? '_' + safeRecordId    : '')
               + (dateYear  ? '_民國' + dateYear + '年'  : '')
               + (dateMonth ? dateMonth + '月'            : '')
               + (dateDay   ? dateDay   + '日'            : '')
