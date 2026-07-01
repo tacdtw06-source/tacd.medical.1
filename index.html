@@ -23,6 +23,8 @@
     <meta name="twitter:description" content="台灣基層糖尿病學會｜糖友疫苗衛教與施打促進計畫線上互動衛教平台">
     <meta name="twitter:image" content="https://tacdtw06-source.github.io/tacd.medical.1/og-image.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 下載同意書用：將畫面內容直接轉為 PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -1154,15 +1156,10 @@
               '@media print{body{display:block;}}',
               '</style></head><body>',
               bodyHTML,
-              '<script>window.onload=function(){setTimeout(function(){window.print();},600);}<\/script>',
               '</body></html>'
             ].join('');
 
-            // ── Blob 下載（不需彈出視窗）──
-            var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-            var url  = URL.createObjectURL(blob);
-            var a    = document.createElement('a');
-            // 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白
+            // ── 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白 ──
             function safeName(s) {
                 return (s || '').replace(/[\\\/:*?"<>|]/g, '').trim();
             }
@@ -1175,13 +1172,33 @@
               + (dateYear  ? '_民國' + dateYear + '年'  : '')
               + (dateMonth ? dateMonth + '月'            : '')
               + (dateDay   ? dateDay   + '日'            : '')
-              + '.html';
-            a.href     = url;
-            a.download = fname;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(function(){ URL.revokeObjectURL(url); }, 10000);
+              + '.pdf';
+
+            // ── 用隱藏 iframe 承載同意書內容，格式（字體/顏色/版面）與畫面完全一致，
+            //    且不受目前裝置（手機／平板）版面影響，確保 PDF 永遠維持標準 A4 格式 ──
+            var pdfIframe = document.createElement('iframe');
+            pdfIframe.style.cssText = 'position:fixed;left:-99999px;top:0;width:794px;height:1123px;border:0;visibility:hidden;';
+            document.body.appendChild(pdfIframe);
+
+            pdfIframe.onload = function() {
+                var pdfTarget = pdfIframe.contentDocument.querySelector('.a4-page')
+                              || pdfIframe.contentDocument.body;
+                var opt = {
+                    margin: 0,
+                    filename: fname,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(pdfTarget).save().then(function(){
+                    document.body.removeChild(pdfIframe);
+                }).catch(function(err){
+                    console.error('PDF 產生失敗', err);
+                    document.body.removeChild(pdfIframe);
+                    showToast('PDF 產生失敗，請稍後再試一次');
+                });
+            };
+            pdfIframe.srcdoc = html;
         }
 
         /* ═══════════════════════════════════════
