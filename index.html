@@ -235,19 +235,36 @@
   background:linear-gradient(180deg,#4c56dd 0%,#1d2088 100%);
 }
 .article-title{
-  display:flex;align-items:center;gap:9px;
+  display:flex;align-items:center;gap:10px;
   font-size:16px;font-weight:700;color:#1d2088;letter-spacing:.3px;margin-bottom:6px;
 }
-.article-title::before{
-  content:"";
+/* 圓角方框打勾元件：供使用者點擊確認已閱讀該條款 */
+.article-check{
   display:inline-flex;align-items:center;justify-content:center;
   flex-shrink:0;
-  width:23px;height:23px;
-  background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjQ4ZDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWQyMDg4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI1NiIgZmlsbD0idXJsKCNnKSIvPgogIDxwYXRoIGQ9Ik0xMzggMjYyIEwyMjggMzUyIEwzOTAgMTY4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNTYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K");
-  background-size:contain;
-  background-repeat:no-repeat;
+  width:22px;height:22px;
+  border:2px solid #c7d2fe;
+  border-radius:7px;
+  background:#fff;
+  cursor:pointer;
+  transition:background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.article-check:hover{border-color:#8891e8;}
+.article-check:focus-visible{outline:2px solid rgba(29,32,136,.45);outline-offset:2px;}
+.article-check.checked{
+  background:linear-gradient(135deg,#3b48d4,#1d2088);
+  border-color:#1d2088;
   box-shadow:0 2px 5px rgba(29,32,136,.35);
-  border-radius:50%;
+}
+.article-check-mark{
+  width:12px;height:12px;
+  opacity:0;
+  transform:scale(.5);
+  transition:opacity .15s ease, transform .15s ease;
+}
+.article-check.checked .article-check-mark{
+  opacity:1;
+  transform:scale(1);
 }
 .article-body{font-size:16px;color:#4b5563;line-height:1.65;}
 .article-lead{font-weight:700;color:#1c1c2e;margin-bottom:4px;}
@@ -661,7 +678,7 @@
   <div class="articles">
 
     <div class="article">
-      <h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>
+      <h3 class="article-title"><span class="article-check" data-article="1" role="checkbox" aria-checked="false" tabindex="0"><img class="article-check-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQgMTIuNSBMOS41IDE4IEwyMCA2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="></span>第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
         <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>
         <p>為執行本計畫之資格確認、衛教介入、前後問卷調查、接種安排、追蹤管理、經費核銷、成效分析及統計研究，本會及參與院所將蒐集、處理及利用下列資料：</p>
@@ -676,7 +693,7 @@
     </div>
 
     <div class="article">
-      <h3 class="article-title">第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
+      <h3 class="article-title"><span class="article-check" data-article="2" role="checkbox" aria-checked="false" tabindex="0"><img class="article-check-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQgMTIuNSBMOS41IDE4IEwyMCA2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="></span>第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
       <div class="article-body">
         <p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本會向您明確告知下列事項：</p>
         <div class="info-grid">
@@ -704,7 +721,7 @@
     </div>
 
     <div class="article">
-       <h3 class="article-title">第三條：自願參與及退出計畫</h3>
+       <h3 class="article-title"><span class="article-check" data-article="3" role="checkbox" aria-checked="false" tabindex="0"><img class="article-check-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQgMTIuNSBMOS41IDE4IEwyMCA2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="></span>第三條：自願參與及退出計畫</h3>
        <div class="article-body">
         <p class="article-lead">本人參與本計畫完全出於自由意願，得拒絕參與或於計畫進行期間隨時退出，且不影響本人原有之就醫、醫療照護、疫苗接種資格或其他權益。</p>
       </div>
@@ -1172,25 +1189,17 @@
                 sigWrap.style.display = 'block';
             }
 
-            // 第一、二、三條標題前的打勾 icon：改用真正的 <img> DOM 元素插入，
-            // 不使用 CSS ::before 偽元素＋background-image（html2canvas 對這種
-            // 生成內容的支援不穩定，常常整個不畫出來），確保 PDF 一定能正確顯示 icon
-            var ARTICLE_ICON_B64 = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjQ4ZDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWQyMDg4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI1NiIgZmlsbD0idXJsKCNnKSIvPgogIDxwYXRoIGQ9Ik0xMzggMjYyIEwyMjggMzUyIEwzOTAgMTY4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNTYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K';
-            clone.querySelectorAll('.article-title').forEach(function(titleEl){
-                var icon = document.createElement('img');
-                icon.src = 'data:image/svg+xml;base64,' + ARTICLE_ICON_B64;
-                icon.setAttribute('alt', '');
-                icon.style.cssText = 'width:14px;height:14px;flex-shrink:0;display:inline-block;vertical-align:middle;margin-right:6px;';
-                titleEl.insertBefore(icon, titleEl.firstChild);
-            });
+            // 第一、二、三條標題前的圓角方框打勾元件：直接沿用複製自網頁的
+            // .article-check（含使用者當下的勾選狀態），不需要額外處理，
+            // PDF 專用樣式會將其轉為靜態、不可點擊的呈現方式
 
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
               '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 20px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;}',
-              '.a4-header-band{background:none;border-bottom:2px solid #1d2088;padding:4px 36px 5px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:7px;flex-wrap:nowrap;}',
-              '.a4-header-title{color:#1d2088;font-size:14px;font-weight:800;letter-spacing:.4px;line-height:1.2;}',
-              '.a4-header-sub{color:#6b7280;font-size:9px;font-weight:500;margin-top:1px;line-height:1.2;}',
-              '.a4-header-badge{background:#eef1ff;border:1px solid #c7d2fe;border-radius:5px;padding:2px 8px;text-align:center;color:#1d2088;font-size:9px;font-weight:700;line-height:1.25;white-space:nowrap;}',
+              '.a4-header-band{background:none;border:none;padding:0 30px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:6px;flex-wrap:nowrap;}',
+              '.a4-header-title{color:#1d2088;font-size:13px;font-weight:800;letter-spacing:.3px;line-height:1.15;}',
+              '.a4-header-sub{color:#8b93a5;font-size:8.5px;font-weight:500;margin-top:1px;line-height:1.15;}',
+              '.a4-header-badge{background:#f3f5fc;border:1px solid #e2e6f5;border-radius:5px;padding:2px 7px;text-align:center;color:#1d2088;font-size:8.5px;font-weight:700;line-height:1.2;white-space:nowrap;}',
               '.a4-body{padding:0 30px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
               '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:5px 11px 4px;margin-bottom:5px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
               '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:3px;line-height:1.32;}',
@@ -1201,7 +1210,11 @@
               '.intro-desc{font-size:11.5px;color:#4b5563;line-height:1.38;margin-top:3px;padding-top:3px;border-top:1px solid #c7d2fe;}',
               '.articles{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}',
               '.article{padding-left:7px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
-              '.article-title{display:flex;align-items:center;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:2px;}',
+              '.article-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:2px;}',
+              '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;}',
+              '.article-check.checked{background:linear-gradient(135deg,#3b48d4,#1d2088);border-color:#1d2088;}',
+              '.article-check-mark{width:9px;height:9px;opacity:0;}',
+              '.article-check.checked .article-check-mark{opacity:1;}',
               '.article-body{font-size:11.5px;color:#4b5563;line-height:1.38;}',
               '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
               '.data-list{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:1px;}',
@@ -1558,6 +1571,25 @@
 
             closeModal();
           }
+        })();
+
+        /* ═══════════════════════════════════════
+           條款圓角方框打勾：點擊切換已閱讀/確認狀態
+        ═══════════════════════════════════════ */
+        (function() {
+            document.querySelectorAll('.article-check').forEach(function(box) {
+                function toggle() {
+                    var isChecked = box.classList.toggle('checked');
+                    box.setAttribute('aria-checked', isChecked ? 'true' : 'false');
+                }
+                box.addEventListener('click', toggle);
+                box.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggle();
+                    }
+                });
+            });
         })();
 
         /* ═══════════════════════════════════════
