@@ -238,7 +238,7 @@
   display:flex;align-items:center;gap:10px;
   font-size:16px;font-weight:700;color:#1d2088;letter-spacing:.3px;margin-bottom:6px;
 }
-/* 圓角方框打勾元件：供使用者點擊確認已閱讀該條款（打勾符號為純文字，非圖片） */
+/* 圓角打勾方框裝飾元件：固定為已勾選狀態，非使用者可互動元件（打勾符號為純文字，非圖片） */
 .article-check{
   display:inline-flex;align-items:center;justify-content:center;
   flex-shrink:0;
@@ -248,11 +248,7 @@
   background:#fff;
   color:#fff;
   font-size:14px;font-weight:900;line-height:1;
-  cursor:pointer;
-  transition:background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
-.article-check:hover{border-color:#8891e8;}
-.article-check:focus-visible{outline:2px solid rgba(29,32,136,.45);outline-offset:2px;}
 .article-check.checked{
   background:linear-gradient(135deg,#3b48d4,#1d2088);
   border-color:#1d2088;
@@ -670,7 +666,7 @@
   <div class="articles">
 
     <div class="article">
-      <h3 class="article-title"><span class="article-check" data-article="1" role="checkbox" aria-checked="false" tabindex="0"></span>第一條：計畫內容與個人資料蒐集之範疇</h3>
+      <h3 class="article-title"><span class="article-check checked" data-article="1" role="img" aria-label="已確認">✓</span>第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
         <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>
         <p>為執行本計畫之資格確認、衛教介入、前後問卷調查、接種安排、追蹤管理、經費核銷、成效分析及統計研究，本會及參與院所將蒐集、處理及利用下列資料：</p>
@@ -685,7 +681,7 @@
     </div>
 
     <div class="article">
-      <h3 class="article-title"><span class="article-check" data-article="2" role="checkbox" aria-checked="false" tabindex="0"></span>第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
+      <h3 class="article-title"><span class="article-check checked" data-article="2" role="img" aria-label="已確認">✓</span>第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
       <div class="article-body">
         <p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本會向您明確告知下列事項：</p>
         <div class="info-grid">
@@ -713,7 +709,7 @@
     </div>
 
     <div class="article">
-       <h3 class="article-title"><span class="article-check" data-article="3" role="checkbox" aria-checked="false" tabindex="0"></span>第三條：自願參與及退出計畫</h3>
+       <h3 class="article-title"><span class="article-check checked" data-article="3" role="img" aria-label="已確認">✓</span>第三條：自願參與及退出計畫</h3>
        <div class="article-body">
         <p class="article-lead">本人參與本計畫完全出於自由意願，得拒絕參與或於計畫進行期間隨時退出，且不影響本人原有之就醫、醫療照護、疫苗接種資格或其他權益。</p>
       </div>
@@ -1578,26 +1574,6 @@
 
             closeModal();
           }
-        })();
-
-        /* ═══════════════════════════════════════
-           條款圓角方框打勾：點擊切換已閱讀/確認狀態
-        ═══════════════════════════════════════ */
-        (function() {
-            document.querySelectorAll('.article-check').forEach(function(box) {
-                function toggle() {
-                    var isChecked = box.classList.toggle('checked');
-                    box.setAttribute('aria-checked', isChecked ? 'true' : 'false');
-                    box.textContent = isChecked ? '\u2713' : '';
-                }
-                box.addEventListener('click', toggle);
-                box.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggle();
-                    }
-                });
-            });
         })();
 
         /* ═══════════════════════════════════════
