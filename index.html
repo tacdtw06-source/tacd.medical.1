@@ -235,24 +235,7 @@
   background:linear-gradient(180deg,#4c56dd 0%,#1d2088 100%);
 }
 .article-title{
-  display:flex;align-items:center;gap:10px;
   font-size:16px;font-weight:700;color:#1d2088;letter-spacing:.3px;margin-bottom:6px;
-}
-/* 圓角打勾方框裝飾元件：固定為已勾選狀態，非使用者可互動元件（打勾符號為純文字，非圖片） */
-.article-check{
-  display:inline-flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-  width:22px;height:22px;
-  border:2px solid #c7d2fe;
-  border-radius:7px;
-  background:#fff;
-  color:#fff;
-  font-size:14px;font-weight:900;line-height:1;
-}
-.article-check.checked{
-  background:linear-gradient(135deg,#3b48d4,#1d2088);
-  border-color:#1d2088;
-  box-shadow:0 2px 5px rgba(29,32,136,.35);
 }
 .article-body{font-size:16px;color:#4b5563;line-height:1.65;}
 .article-lead{font-weight:700;color:#1c1c2e;margin-bottom:4px;}
@@ -288,9 +271,26 @@
   margin-top:auto;padding-top:8px;border-top:1px solid #dde4f7;flex-shrink:0;
 }
 .footer-top{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:6px;margin-bottom:8px;
+  display:flex;flex-direction:column;gap:9px;margin-bottom:8px;
 }
+/* 最終確認勾選方框：置於「此致」上方，固定為已勾選狀態（打勾符號為純文字，非圖片） */
+.final-check-row{display:flex;align-items:flex-start;gap:8px;}
+.final-check-box{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+  width:20px;height:20px;
+  border:2px solid #c7d2fe;
+  border-radius:6px;
+  background:#fff;
+  color:#fff;
+  font-size:13px;font-weight:900;line-height:1;
+}
+.final-check-box.checked{
+  background:linear-gradient(135deg,#3b48d4,#1d2088);
+  border-color:#1d2088;
+  box-shadow:0 2px 5px rgba(29,32,136,.3);
+}
+.final-check-text{font-size:14px;font-weight:600;color:#1c1c2e;line-height:1.5;}
 .footer-addressee{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .footer-addressee-label{font-size:14px;font-weight:700;color:#94a3b8;letter-spacing:1px;}
 .footer-hospital-display{
@@ -670,7 +670,7 @@
   <div class="articles">
 
     <div class="article">
-      <h3 class="article-title"><span class="article-check checked" data-article="1" role="img" aria-label="已確認">✓</span>第一條：計畫內容與個人資料蒐集之範疇</h3>
+      <h3 class="article-title">第一條：計畫內容與個人資料蒐集之範疇</h3>
       <div class="article-body">
         <p class="article-lead">本人同意參與本計畫，並接受醫護人員進行糖尿病控制狀況、新冠疫苗接種評估與相關健康衛教（包含電話追蹤、簡訊提醒或通訊軟體關懷）。</p>
         <p>為執行本計畫之資格確認、衛教介入、前後問卷調查、接種安排、追蹤管理、經費核銷、成效分析及統計研究，本會及參與院所將蒐集、處理及利用下列資料：</p>
@@ -685,7 +685,7 @@
     </div>
 
     <div class="article">
-      <h3 class="article-title"><span class="article-check checked" data-article="2" role="img" aria-label="已確認">✓</span>第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
+      <h3 class="article-title">第二條：個人資料保護與隱私權宣告（個資法第 8 條告知事項）</h3>
       <div class="article-body">
         <p style="margin-bottom:4px;">依據台灣《個人資料保護法》之規定，本會向您明確告知下列事項：</p>
         <div class="info-grid">
@@ -712,7 +712,7 @@
     </div>
 
     <div class="article">
-       <h3 class="article-title"><span class="article-check checked" data-article="3" role="img" aria-label="已確認">✓</span>第三條：自願參與及退出計畫</h3>
+       <h3 class="article-title">第三條：自願參與及退出計畫</h3>
        <div class="article-body">
         <p class="article-lead">本人參與本計畫完全出於自由意願，得拒絕參與或於計畫進行期間隨時退出，且不影響本人原有之就醫、醫療照護、疫苗接種資格或其他權益。</p>
       </div>
@@ -723,6 +723,10 @@
   <!-- Footer / Signature -->
   <div class="footer-section">
     <div class="footer-top">
+      <div class="final-check-row">
+        <span class="final-check-box checked" role="img" aria-label="已確認">✓</span>
+        <span class="final-check-text">本人（立書人）已詳閱、理解並同意上述所有條款、資訊及聲明事項。</span>
+      </div>
       <div class="footer-addressee">
 	<span class="footer-addressee-label">本人如撤回同意，撤回前已依法完成之資料蒐集、處理及利用，不因撤回而失其效力；已完成去識別化且無法再識別本人之統計資料，可能無法個別刪除。</span>
         <span class="footer-addressee-label">此致</span>
@@ -1248,12 +1252,11 @@
             var headerBadgeEl = clone.querySelector('.a4-header-badge');
             if (headerBadgeEl) headerBadgeEl.style.cssText = 'background:#f5f7fd;border:1px solid #dde3f5;border-radius:6px;padding:5px 11px;text-align:center;color:#1d2088;font-size:11px;font-weight:700;line-height:1.45;white-space:nowrap;';
 
-            // 條款打勾方框：同樣改用 inline style 強制設定樣式，確保與勾選狀態
-            // （checked／未 checked）對應的外觀一定正確顯示在 PDF 中
-            clone.querySelectorAll('.article-check').forEach(function(box){
-                var isChecked = box.classList.contains('checked');
-                box.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid ' + (isChecked ? '#1d2088' : '#c7d2fe') + ';border-radius:5px;background:' + (isChecked ? 'linear-gradient(135deg,#3b48d4,#1d2088)' : '#ffffff') + ';color:#ffffff;font-size:10px;font-weight:900;line-height:1;';
-            });
+            // 最終確認勾選方框（此致上方）：同樣改用 inline style 強制設定樣式
+            var finalCheckBox = clone.querySelector('.final-check-box');
+            if (finalCheckBox) {
+                finalCheckBox.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;width:15px;height:15px;border:1.5px solid #1d2088;border-radius:5px;background:linear-gradient(135deg,#3b48d4,#1d2088);color:#ffffff;font-size:11px;font-weight:900;line-height:1;';
+            }
 
             // 簽名：以實際簽名圖片取代手寫 canvas／清除按鈕
             var sigWrap = clone.querySelector('.sig-canvas-wrap');
@@ -1263,10 +1266,6 @@
                 // 下載/列印檔案中必須強制顯示，否則簽名會消失不見
                 sigWrap.style.display = 'block';
             }
-
-            // 第一、二、三條標題前的圓角方框打勾元件：直接沿用複製自網頁的
-            // .article-check（含使用者當下的勾選狀態），不需要額外處理，
-            // PDF 專用樣式會將其轉為靜態、不可點擊的呈現方式
 
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
@@ -1279,16 +1278,14 @@
               '.intro-card{background:#f5f7fd;border:1px solid #dde3f5;border-radius:8px;padding:8px 13px 7px;margin-bottom:8px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
               '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:4px;line-height:1.4;}',
               '.field-row:last-child{margin-bottom:0;}',
-              '.label-text{font-size:12.5px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
-              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:12.5px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 6px;min-width:110px;text-align:center;}',
-              '.field-fixed-org{font-size:12.5px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 6px;white-space:nowrap;}',
-              '.intro-desc{font-size:11.5px;color:#4b5563;line-height:1.45;margin-top:5px;padding-top:5px;border-top:1px solid #dde3f5;}',
+              '.label-text{font-size:11px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
+              '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:11px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 6px;min-width:110px;text-align:center;}',
+              '.field-fixed-org{font-size:11px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 6px;white-space:nowrap;}',
+              '.intro-desc{font-size:11px;color:#4b5563;line-height:1.45;margin-top:5px;padding-top:5px;border-top:1px solid #dde3f5;}',
               '.articles{display:flex;flex-direction:column;gap:9px;flex-shrink:0;}',
               '.article{padding:2px 0 2px 12px;border-left:3px solid #3b48d4;border-radius:2px;}',
-              '.article-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:4px;}',
-              '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:16px;height:16px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;color:#fff;font-size:10.5px;font-weight:900;line-height:1;}',
-              '.article-check.checked{background:linear-gradient(135deg,#3b48d4,#1d2088);border-color:#1d2088;}',
-              '.article-body{font-size:11.5px;color:#4b5563;line-height:1.45;}',
+              '.article-title{font-size:11px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:4px;}',
+              '.article-body{font-size:11px;color:#4b5563;line-height:1.45;}',
               '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:3px;}',
               '.data-list{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:2px;}',
               '.data-list li{break-inside:avoid;page-break-inside:avoid;padding-left:11px;position:relative;}',
@@ -1298,25 +1295,29 @@
               '.info-grid-item dd{font-size:11px;color:#6b7280;line-height:1.4;margin:0;}',
               '.hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 4px;min-width:90px;display:inline-block;text-align:center;}',
               '.period-list{display:flex;flex-direction:column;gap:3px;margin:5px 0;}',
-              '.period-row{display:flex;gap:6px;font-size:11.5px;break-inside:avoid;page-break-inside:avoid;}',
+              '.period-row{display:flex;gap:6px;font-size:11px;break-inside:avoid;page-break-inside:avoid;}',
               '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:32px;}',
               '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:5px;padding:6px 9px;font-size:11px;color:#6b7280;line-height:1.42;margin-top:4px;break-inside:avoid;page-break-inside:avoid;}',
               '.footer-section{margin-top:auto;padding-top:10px;border-top:1px solid #e4e8f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-top{display:flex;align-items:center;margin-bottom:8px;}',
+              '.footer-top{display:flex;flex-direction:column;gap:7px;margin-bottom:8px;}',
+              '.final-check-row{display:flex;align-items:flex-start;gap:7px;}',
+              '.final-check-box{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;width:15px;height:15px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;color:#fff;font-size:11px;font-weight:900;line-height:1;}',
+              '.final-check-box.checked{background:linear-gradient(135deg,#3b48d4,#1d2088);border-color:#1d2088;}',
+              '.final-check-text{font-size:11px;font-weight:600;color:#1c1c2e;line-height:1.4;}',
               '.footer-addressee{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}',
-              '.footer-addressee-label{font-size:10.5px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.4;}',
-              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 8px;min-width:120px;display:inline-block;text-align:center;font-size:12.5px;}',
+              '.footer-addressee-label{font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.4;}',
+              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 8px;min-width:120px;display:inline-block;text-align:center;font-size:11px;}',
               '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#f8faff;border:1px solid #e4e8f7;border-radius:10px;padding:10px 12px;}',
               '.sig-block{display:flex;flex-direction:column;gap:5px;width:auto;}',
-              '.sig-block-label{font-size:11.5px;font-weight:700;color:#4b5563;}',
+              '.sig-block-label{font-size:11px;font-weight:700;color:#4b5563;}',
               '.sig-canvas-wrap{position:relative;width:100%;height:90px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:8px;overflow:hidden;}',
               '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:8px;}',
               '.field-line{display:flex;align-items:center;gap:6px;}',
-              '.field-line-label{font-size:11.5px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:70px;}',
-              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:2px 3px;color:#1c1c2e;font-size:12.5px;font-weight:600;outline:none;}',
+              '.field-line-label{font-size:11px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:70px;}',
+              '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:2px 3px;color:#1c1c2e;font-size:11px;font-weight:600;outline:none;}',
               '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
-              '.date-row{display:flex;align-items:center;gap:2px;font-size:12.5px;color:#334155;font-weight:500;}',
-              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:12.5px;}'
+              '.date-row{display:flex;align-items:center;gap:2px;font-size:11px;color:#334155;font-weight:500;}',
+              '.date-input{font-family:Arial,"Microsoft JhengHei",sans-serif;text-align:center;border:none;border-bottom:1.5px solid #94a3b8;background:transparent;font-weight:700;outline:none;color:#1d2088;font-size:11px;}'
             ].join('');
 
             // ── 檔名安全化：移除檔案系統不允許的字元，並去除頭尾空白 ──
