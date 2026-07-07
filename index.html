@@ -703,7 +703,8 @@
           <div class="period-row"><span class="period-label">期間</span><span> 自本同意書簽署日起至本計畫結束後五年止；如相關法令另有較長保存期限者，從其規定。保存期限屆滿後，將刪除、銷毀或進行不可回復之去識別化處理。</span></div>
           <div class="period-row"><span class="period-label">地區</span><span>中華民國（台灣）境內。</span></div>
           <div class="period-row"><span class="period-label">對象</span><span>台灣基層糖尿病學會、參與本計畫之醫療院所、本會依法或依契約委託之資訊系統、行政作業及資料分析單位，以及依法具有調查或監督權限之主管機關。</span></div>
-          <div class="period-row"><span class="period-label">方式</span><span>以紙本、電子文件、資訊系統、電話、簡訊、通訊軟體或其他自動化及非自動化方式蒐集、處理及利用，並採取符合醫療倫理及《個人資料保護法》之安全維護措施，本計畫合作或補助單位僅得取得無法識別特定個人之彙整統計資料，不提供姓名、電話、病歷號、新冠疫苗接種紀錄卡/接種證明或其他可識別個人之資料。</span></div>
+          <div class="period-row"><span class="period-label">方式</span><span>以紙本、電子文件、資訊系統、電話、簡訊、通訊軟體或其他自動化及非自動化方式蒐集、處理及利用，並採取符合醫療倫理及《個人資料保護法》之安全維護措施
+本計畫合作或補助單位僅得取得無法識別特定個人之彙整統計資料，不提供姓名、電話、病歷號、新冠疫苗接種紀錄卡/接種證明或其他可識別個人之資料。</span></div>
         </div>
         <div class="rights-box">
           <strong>當事人權利：</strong>依據《個資法》第 3 條，您得向本會申請查詢、閱覽、製給複製本、補充或更正、停止蒐集／處理／利用，或請求刪除。您得隨時自由選擇是否提供個人資料，惟若不提供，本機構將可能無法為您提供本計畫之完整衛教服務。
@@ -868,7 +869,7 @@
                             </svg>
                         </div>
                         <p class="text-slate-500 text-sm font-medium">衛教影片區</p>
-                        <p class="text-muted text-xs mt-1">（請放入影片連結）</p>
+                        <p class="text-muted text-xs mt-1">（請於 HTML 原始碼中置入實際影片連結）</p>
                     </div>
                 </div>
 
@@ -889,7 +890,7 @@
                                 </svg>
                             </div>
                             <p class="text-slate-500 text-sm font-medium">衛教單張 1</p>
-                            <p class="text-muted text-xs mt-1">（請放入圖片連結）</p>
+                            <p class="text-muted text-xs mt-1">（請替換為實際圖片）</p>
                         </div>
                         <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#d8d9e0] bg-secondary/60 aspect-[3/4] p-4">
                             <div class="w-12 h-12 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-3">
@@ -898,7 +899,7 @@
                                 </svg>
                             </div>
                             <p class="text-slate-500 text-sm font-medium">衛教單張 2</p>
-                            <p class="text-muted text-xs mt-1">（請放入圖片連結）</p>
+                            <p class="text-muted text-xs mt-1">（請替換為實際圖片）</p>
                         </div>
                     </div>
                 </div>
@@ -934,7 +935,7 @@
                     <div class="mb-6">
                         <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第五步驟：上傳小黃卡或收據</span>
                         <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">上傳新冠疫苗接種紀錄(小黃卡)或施打疫苗收據</h2>
-                        <p class="text-muted text-sm mt-1.5">小黃卡或施打疫苗收據必須清楚載明施打者姓名。請將100名參與者之同意書彙整為單一PDF檔案後，於計畫截止日前上傳至本系統。</p>
+                        <p class="text-muted text-sm mt-1.5">小黃卡或施打疫苗收據必須清楚載明施打者姓名。</p>
                     </div>
 
                     <div class="flex flex-col items-center justify-center py-8 bg-secondary/60 rounded-2xl border border-dashed border-[#d8d9e0] my-4 p-6">
@@ -1402,8 +1403,8 @@
                 //   對純文字為主的同意書而言解析度過高、檔案過大）
                 // 提高解析度：加大渲染倍率與圖片品質，文字與線條會更清晰銳利
                 // （檔案大小會相對變大，若需要縮小檔案可再調降這兩個數值）
-                image: { type: 'jpeg', quality: 0.92 },
-                html2canvas: { scale: 2.5, useCORS: true, backgroundColor: '#ffffff' },
+                image: { type: 'jpeg', quality: 0.6 },
+                html2canvas: { scale: 1.3, useCORS: true, backgroundColor: '#ffffff' },
                 jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait', compress: true },
                 // 分頁設定：只在「小區塊」層級避免硬切（例如表格、列點、簽名區），
                 // 條款本身（.article）不強制避免跨頁，允許內容較長的條款
