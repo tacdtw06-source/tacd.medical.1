@@ -1199,48 +1199,48 @@
 
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
-              '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 20px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;}',
-              '.a4-header-band{background:none;border:none;padding:0 30px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:6px;flex-wrap:nowrap;}',
-              '.a4-header-title{color:#1d2088;font-size:13px;font-weight:800;letter-spacing:.3px;line-height:1.15;}',
-              '.a4-header-sub{color:#8b93a5;font-size:8.5px;font-weight:500;margin-top:1px;line-height:1.15;}',
-              '.a4-header-badge{background:#f3f5fc;border:1px solid #e2e6f5;border-radius:5px;padding:2px 7px;text-align:center;color:#1d2088;font-size:8.5px;font-weight:700;line-height:1.2;white-space:nowrap;}',
-              '.a4-body{padding:0 30px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
-              '.intro-card{background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:5px 11px 4px;margin-bottom:5px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:3px;line-height:1.32;}',
+              '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 24px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;font-family:Arial,"Microsoft JhengHei",sans-serif;}',
+              '.a4-header-band{background:none;border-bottom:1px solid #e4e8f7;padding:16px 32px 8px;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;margin-bottom:10px;flex-wrap:nowrap;}',
+              '.a4-header-title{color:#1d2088;font-size:14px;font-weight:800;letter-spacing:.3px;line-height:1.2;}',
+              '.a4-header-sub{color:#8b93a5;font-size:8.5px;font-weight:500;margin-top:2px;line-height:1.3;}',
+              '.a4-header-badge{background:#f5f7fd;border:1px solid #dde3f5;border-radius:6px;padding:3px 9px;text-align:center;color:#1d2088;font-size:8.5px;font-weight:700;line-height:1.35;white-space:nowrap;}',
+              '.a4-body{padding:0 32px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
+              '.intro-card{background:#f5f7fd;border:1px solid #dde3f5;border-radius:8px;padding:8px 13px 7px;margin-bottom:8px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
+              '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:4px;line-height:1.4;}',
               '.field-row:last-child{margin-bottom:0;}',
               '.label-text{font-size:12.5px;font-weight:600;color:#1c1c2e;white-space:nowrap;}',
               '.field-input{font-family:Arial,"Microsoft JhengHei",sans-serif;font-size:12.5px;font-weight:700;color:#1d2088;background:transparent;border:none;border-bottom:1.5px solid #1d2088;outline:none;padding:1px 6px;min-width:110px;text-align:center;}',
               '.field-fixed-org{font-size:12.5px;font-weight:700;color:#1d2088;border-bottom:1.5px solid #1d2088;padding:1px 6px;white-space:nowrap;}',
-              '.intro-desc{font-size:11.5px;color:#4b5563;line-height:1.38;margin-top:3px;padding-top:3px;border-top:1px solid #c7d2fe;}',
-              '.articles{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}',
-              '.article{padding-left:7px;border-left:3px solid #1d2088;break-inside:avoid;page-break-inside:avoid;}',
-              '.article-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:2px;}',
-              '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:15px;height:15px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;color:#fff;font-size:10px;font-weight:900;line-height:1;}',
+              '.intro-desc{font-size:11.5px;color:#4b5563;line-height:1.45;margin-top:5px;padding-top:5px;border-top:1px solid #dde3f5;}',
+              '.articles{display:flex;flex-direction:column;gap:9px;flex-shrink:0;}',
+              '.article{padding:2px 0 2px 12px;border-left:3px solid #3b48d4;border-radius:2px;}',
+              '.article-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1d2088;letter-spacing:.2px;margin-bottom:4px;}',
+              '.article-check{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:16px;height:16px;border:1.5px solid #c7d2fe;border-radius:5px;background:#fff;color:#fff;font-size:10.5px;font-weight:900;line-height:1;}',
               '.article-check.checked{background:linear-gradient(135deg,#3b48d4,#1d2088);border-color:#1d2088;}',
-              '.article-body{font-size:11.5px;color:#4b5563;line-height:1.38;}',
-              '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
-              '.data-list{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:1px;}',
-              '.data-list li{break-inside:avoid;page-break-inside:avoid;}',
+              '.article-body{font-size:11.5px;color:#4b5563;line-height:1.45;}',
+              '.article-lead{font-weight:700;color:#1c1c2e;margin-bottom:3px;}',
+              '.data-list{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:2px;}',
+              '.data-list li{break-inside:avoid;page-break-inside:avoid;padding-left:11px;position:relative;}',
               '.data-term{font-weight:700;color:#1c1c2e;}',
-              '.info-grid{display:grid;grid-template-columns:1fr;gap:4px;background:#f8faff;border:1px solid #dde4f7;border-radius:6px;padding:4px 7px;margin:2px 0;break-inside:avoid;page-break-inside:avoid;}',
-              '.info-grid-item dt{font-size:11px;font-weight:700;color:#1c1c2e;margin-bottom:1px;}',
-              '.info-grid-item dd{font-size:11px;color:#6b7280;line-height:1.3;margin:0;}',
+              '.info-grid{display:grid;grid-template-columns:1fr;gap:6px;background:#f8faff;border:1px solid #e4e8f7;border-radius:7px;padding:7px 10px;margin:5px 0;break-inside:avoid;page-break-inside:avoid;}',
+              '.info-grid-item dt{font-size:11px;font-weight:700;color:#1c1c2e;margin-bottom:2px;}',
+              '.info-grid-item dd{font-size:11px;color:#6b7280;line-height:1.4;margin:0;}',
               '.hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 4px;min-width:90px;display:inline-block;text-align:center;}',
-              '.period-list{display:flex;flex-direction:column;gap:1px;margin:2px 0;}',
-              '.period-row{display:flex;gap:5px;font-size:11.5px;break-inside:avoid;page-break-inside:avoid;}',
-              '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:30px;}',
-              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:4px;padding:4px 7px;font-size:11px;color:#6b7280;line-height:1.35;margin-top:2px;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-section{margin-top:auto;padding-top:4px;border-top:1px solid #dde4f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
-              '.footer-top{display:flex;align-items:center;margin-bottom:4px;}',
-              '.footer-addressee{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}',
-              '.footer-addressee-label{font-size:10.5px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.3;}',
-              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 7px;min-width:120px;display:inline-block;text-align:center;font-size:12.5px;}',
-              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f8faff;border:1px solid #dde4f7;border-radius:9px;padding:8px 10px;break-inside:avoid;page-break-inside:avoid;}',
-              '.sig-block{display:flex;flex-direction:column;gap:3px;width:auto;}',
+              '.period-list{display:flex;flex-direction:column;gap:3px;margin:5px 0;}',
+              '.period-row{display:flex;gap:6px;font-size:11.5px;break-inside:avoid;page-break-inside:avoid;}',
+              '.period-label{color:#1d2088;font-weight:700;white-space:nowrap;min-width:32px;}',
+              '.rights-box{background:#f8faff;border-left:2px solid #a5b4fc;border-radius:5px;padding:6px 9px;font-size:11px;color:#6b7280;line-height:1.42;margin-top:4px;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-section{margin-top:auto;padding-top:10px;border-top:1px solid #e4e8f7;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
+              '.footer-top{display:flex;align-items:center;margin-bottom:8px;}',
+              '.footer-addressee{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}',
+              '.footer-addressee-label{font-size:10.5px;font-weight:700;color:#94a3b8;letter-spacing:.5px;line-height:1.4;}',
+              '.footer-hospital-display{color:#1d2088;font-weight:700;border-bottom:1.5px solid #1d2088;padding:0 8px;min-width:120px;display:inline-block;text-align:center;font-size:12.5px;}',
+              '.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#f8faff;border:1px solid #e4e8f7;border-radius:10px;padding:10px 12px;}',
+              '.sig-block{display:flex;flex-direction:column;gap:5px;width:auto;}',
               '.sig-block-label{font-size:11.5px;font-weight:700;color:#4b5563;}',
-              '.sig-canvas-wrap{position:relative;width:100%;height:88px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:7px;overflow:hidden;}',
-              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:6px;}',
-              '.field-line{display:flex;align-items:center;gap:5px;}',
+              '.sig-canvas-wrap{position:relative;width:100%;height:90px;background:#fff;border:1.5px dashed #c7d2fe;border-radius:8px;overflow:hidden;}',
+              '.fields-col{display:flex;flex-direction:column;justify-content:space-between;gap:8px;}',
+              '.field-line{display:flex;align-items:center;gap:6px;}',
               '.field-line-label{font-size:11.5px;font-weight:700;color:#4b5563;white-space:nowrap;min-width:70px;}',
               '.field-line-input{font-family:Arial,"Microsoft JhengHei",sans-serif;flex:1;background:transparent;border:none;border-bottom:1.5px solid #94a3b8;padding:2px 3px;color:#1c1c2e;font-size:12.5px;font-weight:600;outline:none;}',
               '.field-line-input.mono{font-family:"Courier New",Courier,monospace;}',
@@ -1326,14 +1326,19 @@
             var opt = {
                 margin: 0,
                 filename: fname,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-                jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' },
-                // 分頁設定：優先依照 CSS break-inside:avoid 規則決定分頁點，
-                // 確保條款、表格、簽名區塊等不會被硬生生從中間切成兩頁
+                // 降低圖片壓縮品質與渲染倍率，大幅縮小 PDF 檔案大小
+                // （原本 scale:2 + quality:0.98 renders 出來的檔案通常會有數 MB，
+                //   對純文字為主的同意書而言解析度過高、檔案過大）
+                image: { type: 'jpeg', quality: 0.72 },
+                html2canvas: { scale: 1.5, useCORS: true, backgroundColor: '#ffffff' },
+                jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait', compress: true },
+                // 分頁設定：只在「小區塊」層級避免硬切（例如表格、列點、簽名區），
+                // 條款本身（.article）不強制避免跨頁，允許內容較長的條款
+                // 自然延續到下一頁，避免因為整條被硬性推到下一頁，
+                // 導致上一頁提早結束、留下大片空白
                 pagebreak: {
                     mode: ['css', 'legacy'],
-                    avoid: ['.article', '.info-grid', '.rights-box', '.footer-grid', '.intro-card', '.data-list li', '.period-row']
+                    avoid: ['.info-grid', '.rights-box', '.footer-grid', '.intro-card', '.data-list li', '.period-row', '.article-title']
                 }
             };
             html2pdf().set(opt).from(clone).save().then(function(){
