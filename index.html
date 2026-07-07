@@ -1170,12 +1170,12 @@
                 // 直接設定 inline style 強制移除深藍色漸層橫幅，改為極簡純文字頁首。
                 // 不透過外部/動態注入的 CSS 規則（避免 html2canvas 對動態樣式表的
                 // 套用時機不穩定），inline style 是最高優先權、最保險的作法。
-                headerBand.style.cssText = 'background:#ffffff;background-image:none;border:none;padding:0 30px;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:nowrap;';
+                headerBand.style.cssText = 'background:#ffffff;background-image:none;border:none;border-bottom:1px solid #e4e8f7;padding:18px 32px 10px;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:11px;flex-wrap:nowrap;';
             }
-            if (headerTitleEl) headerTitleEl.style.cssText = 'color:#1d2088;font-size:13px;font-weight:800;letter-spacing:.3px;line-height:1.15;';
-            if (headerSubEl) headerSubEl.style.cssText = 'color:#8b93a5;font-size:8.5px;font-weight:500;margin-top:1px;line-height:1.15;';
+            if (headerTitleEl) headerTitleEl.style.cssText = 'color:#1d2088;font-size:20px;font-weight:800;letter-spacing:.4px;line-height:1.15;';
+            if (headerSubEl) headerSubEl.style.cssText = 'color:#8b93a5;font-size:9px;font-weight:500;margin-top:3px;line-height:1.3;';
             var headerBadgeEl = clone.querySelector('.a4-header-badge');
-            if (headerBadgeEl) headerBadgeEl.style.cssText = 'background:#f3f5fc;border:1px solid #e2e6f5;border-radius:5px;padding:2px 7px;text-align:center;color:#1d2088;font-size:8.5px;font-weight:700;line-height:1.2;white-space:nowrap;';
+            if (headerBadgeEl) headerBadgeEl.style.cssText = 'background:#f5f7fd;border:1px solid #dde3f5;border-radius:6px;padding:4px 10px;text-align:center;color:#1d2088;font-size:9px;font-weight:700;line-height:1.4;white-space:nowrap;';
 
             // 條款打勾方框：同樣改用 inline style 強制設定樣式，確保與勾選狀態
             // （checked／未 checked）對應的外觀一定正確顯示在 PDF 中
@@ -1200,10 +1200,10 @@
             // ── PDF 專用樣式規則（純文字陣列，稍後會自動加上 !important 並限定作用範圍）──
             var pdfCssRules = [
               '.a4-page{width:794px;min-height:1123px;max-width:794px;background:#fff;padding:0 0 24px;display:flex;flex-direction:column;overflow:visible;transform:none;border-radius:0;box-shadow:none;font-family:Arial,"Microsoft JhengHei",sans-serif;}',
-              '.a4-header-band{background:none;border-bottom:1px solid #e4e8f7;padding:16px 32px 8px;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;margin-bottom:10px;flex-wrap:nowrap;}',
-              '.a4-header-title{color:#1d2088;font-size:14px;font-weight:800;letter-spacing:.3px;line-height:1.2;}',
-              '.a4-header-sub{color:#8b93a5;font-size:8.5px;font-weight:500;margin-top:2px;line-height:1.3;}',
-              '.a4-header-badge{background:#f5f7fd;border:1px solid #dde3f5;border-radius:6px;padding:3px 9px;text-align:center;color:#1d2088;font-size:8.5px;font-weight:700;line-height:1.35;white-space:nowrap;}',
+              '.a4-header-band{background:none;border-bottom:1px solid #e4e8f7;padding:18px 32px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;margin-bottom:11px;flex-wrap:nowrap;}',
+              '.a4-header-title{color:#1d2088;font-size:20px;font-weight:800;letter-spacing:.4px;line-height:1.15;}',
+              '.a4-header-sub{color:#8b93a5;font-size:9px;font-weight:500;margin-top:3px;line-height:1.3;}',
+              '.a4-header-badge{background:#f5f7fd;border:1px solid #dde3f5;border-radius:6px;padding:4px 10px;text-align:center;color:#1d2088;font-size:9px;font-weight:700;line-height:1.4;white-space:nowrap;}',
               '.a4-body{padding:0 32px;display:flex;flex-direction:column;flex:1;overflow:visible;}',
               '.intro-card{background:#f5f7fd;border:1px solid #dde3f5;border-radius:8px;padding:8px 13px 7px;margin-bottom:8px;flex-shrink:0;break-inside:avoid;page-break-inside:avoid;}',
               '.field-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;margin-bottom:4px;line-height:1.4;}',
