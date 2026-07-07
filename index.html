@@ -523,7 +523,7 @@
   main { padding:0 !important; }
   .bg-white.rounded-3xl { box-shadow:none !important; border:none !important; padding:0 !important; }
   #step-content-1 > *:not(#a4-page):not(div:has(#a4-page)) { display:none !important; }
-  #step-content-2, #step-content-3, #step-content-4 { display:none !important; }
+  #step-content-2, #step-content-3, #step-content-4, #step-content-5 { display:none !important; }
   .step-nav-bar { display:none !important; }
 }
         /* ── 步驟標籤手機字體縮小、加大可點擊區域 ── */
@@ -597,7 +597,7 @@
                 <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-hairline z-0"></div>
                 <div id="progress-bar" class="absolute left-0 top-1/2 -translate-y-1/2 h-px bg-primary z-0 transition-all duration-500" style="width: 0%"></div>
 
-                <!-- 點選 1、2、3、4 自動跳轉 -->
+                <!-- 點選 1～5 自動跳轉 -->
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="1">
                     <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold ring-4 ring-primary/10 shadow-[0_2px_8px_rgba(29,32,136,0.3)] transition-all duration-300 group-hover:scale-105">1</div>
                     <span class="text-xs sm:text-base font-extrabold mt-2 text-ink">同意書填寫</span>
@@ -608,10 +608,14 @@
                 </div>
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="3">
                     <div class="w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">3</div>
-                    <span class="text-xs sm:text-base font-medium mt-2 text-muted">衛教後問卷</span>
+                    <span class="text-xs sm:text-base font-medium mt-2 text-muted">衛教資訊</span>
                 </div>
                 <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="4">
                     <div class="w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">4</div>
+                    <span class="text-xs sm:text-base font-medium mt-2 text-muted">衛教後問卷</span>
+                </div>
+                <div class="relative z-10 flex flex-col items-center step-node cursor-pointer group" data-step="5">
+                    <div class="w-10 h-10 rounded-full bg-white text-muted border border-hairline flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-105">5</div>
                     <span class="text-xs sm:text-base font-medium mt-2 text-muted">上傳小黃卡</span>
                 </div>
             </div>
@@ -832,10 +836,78 @@
 
             </div>
 
-            <!-- STEP 3: 衛教後問卷 -->
+            <!-- STEP 3: 衛教資訊（影片＋衛教單張） -->
             <div id="step-content-3" class="step-transition hidden">
                 <div class="mb-6">
-                    <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第三步驟：衛教後問卷</span>
+                    <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第三步驟：衛教資訊</span>
+                    <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">糖尿病與新冠疫苗衛教資訊</h2>
+                    <p class="text-muted text-sm mt-1.5">請觀看衛教影片並參考衛教單張，了解相關資訊後再進行下一步。</p>
+                </div>
+
+                <!-- 衛教影片區塊 -->
+                <!--
+                  ══ 開發者說明：請將下方置換為實際影片 ══
+                  範例一（YouTube 嵌入）：
+                  <div class="rounded-2xl overflow-hidden border border-hairline" style="aspect-ratio:16/9;">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/請填入影片ID"
+                      title="衛教影片" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen></iframe>
+                  </div>
+                  範例二（自行上傳的 mp4 影片檔）：
+                  <video controls class="w-full rounded-2xl border border-hairline" style="aspect-ratio:16/9;background:#000;">
+                    <source src="請填入影片檔路徑.mp4" type="video/mp4">
+                    您的瀏覽器不支援影片播放，請更新瀏覽器版本。
+                  </video>
+                -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold text-ink mb-2">衛教影片</h3>
+                    <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#d8d9e0] bg-secondary/60" style="aspect-ratio:16/9;">
+                        <div class="w-14 h-14 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <p class="text-slate-500 text-sm font-medium">衛教影片區</p>
+                        <p class="text-muted text-xs mt-1">（請於 HTML 原始碼中置入實際影片連結）</p>
+                    </div>
+                </div>
+
+                <!-- 衛教單張區塊 -->
+                <!--
+                  ══ 開發者說明：請將下方虛線佔位卡片，換成實際的衛教單張圖片 ══
+                  範例：
+                  <img src="請填入衛教單張圖片路徑.jpg" alt="衛教單張說明"
+                       class="w-full rounded-2xl border border-hairline">
+                -->
+                <div>
+                    <h3 class="text-sm font-bold text-ink mb-2">衛教單張</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#d8d9e0] bg-secondary/60 aspect-[3/4] p-4">
+                            <div class="w-12 h-12 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <p class="text-slate-500 text-sm font-medium">衛教單張 1</p>
+                            <p class="text-muted text-xs mt-1">（請替換為實際圖片）</p>
+                        </div>
+                        <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#d8d9e0] bg-secondary/60 aspect-[3/4] p-4">
+                            <div class="w-12 h-12 bg-primary/[0.06] text-primary rounded-2xl flex items-center justify-center mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <p class="text-slate-500 text-sm font-medium">衛教單張 2</p>
+                            <p class="text-muted text-xs mt-1">（請替換為實際圖片）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: 衛教後問卷 -->
+            <div id="step-content-4" class="step-transition hidden">
+                <div class="mb-6">
+                    <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第四步驟：衛教後問卷</span>
                     <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">填寫衛教後問卷</h2>
                     <p class="text-muted text-sm mt-1.5">請點擊下方按鈕完成衛教『後』問卷。</p>
                 </div>
@@ -856,11 +928,11 @@
 
             </div>
 
-            <!-- STEP 4: 上傳小黃卡或收據 -->
-            <div id="step-content-4" class="step-transition hidden">
+            <!-- STEP 5: 上傳小黃卡或收據 -->
+            <div id="step-content-5" class="step-transition hidden">
                 <div>
                     <div class="mb-6">
-                        <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第四步驟：上傳小黃卡或收據</span>
+                        <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/[0.07] rounded-full">第五步驟：上傳小黃卡或收據</span>
                         <h2 class="text-2xl font-bold text-ink mt-2 tracking-tight">上傳新冠疫苗接種紀錄(小黃卡)或施打疫苗收據</h2>
                         <p class="text-muted text-sm mt-1.5">小黃卡或施打疫苗收據必須清楚載明施打者姓名。請將100名參與者之同意書彙整為單一PDF檔案後，於計畫截止日前上傳至本系統。</p>
                     </div>
@@ -929,7 +1001,7 @@
     <script>
         // 狀態管理
         let currentStep = 1;
-        const totalSteps = 4;
+        const totalSteps = 5;
 
         // DOM 元素選取
         const stepNodes = document.querySelectorAll('.step-node');
